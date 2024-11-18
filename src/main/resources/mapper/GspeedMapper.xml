@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0/EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.uptoyou_game3.mapper.GspeedMapper">
+
+	<select id="detail" resultType="com.example.uptoyou_game3.dto.GspeedDto$DetailResDto">
+		SELECT
+			gspeed.id
+			,gspeed.user_id as userId
+			,gspeed.level1
+			,gspeed.level2
+			,gspeed.level3
+			,(gspeed.level1 + gspeed.level2 + gspeed.level3) as level
+			,user.username as userUsername
+		FROM gspeed, user
+		WHERE gspeed.user_id = user.id
+		  AND gspeed.id = #{id}
+	</select>
+	<select id="list" resultType="com.example.uptoyou_game3.dto.GspeedDto$DetailResDto">
+		SELECT
+			gspeed.id
+		FROM gspeed, user
+		WHERE gspeed.user_id = user.id
+		ORDER BY (gspeed.level1 + gspeed.level2 + gspeed.level3) ASC
+	</select>
+
+</mapper>

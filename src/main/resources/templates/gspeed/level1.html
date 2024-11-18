@@ -238,9 +238,8 @@
     const modal = document.getElementById('modal');
     const yesBtn = document.getElementById('yes-btn');
 
-    const urlParams = new URL(location.href).searchParams;
-    const userId = urlParams.get('userId');
-    alert(userId);
+    const userId = localStorage.getItem("reqUserId");
+    $("#detail_username").text(localStorage.getItem("reqUserUsername"));
 
     /*const userId = document.getElementById('user-id').textContent.trim();*/
     let score = 0;
@@ -391,19 +390,19 @@
                 modal.style.display = 'flex';
 
                 $.ajax({
-                    url: "/api/game/level1",
-                    type: "PUT",
+                    url: "/api/gspeed",
+                    type: "POST",
                     contentType: 'application/json; charset=utf-8',
                     data: JSON.stringify({
-                        id: userId,
-                        time: timeTaken
+                        userId: userId,
+                        level1: timeTaken
                     }),
                     cache: false,
                     success: (obj_data, status, xhr) => {
-                        console.log("AJAX Success:", obj_data);
+                        console.log("AJAX Success:", obj_data.id);
+                        localStorage.setItem("gspeedId", obj_data.id);
                         alert("성공적으로 저장되었습니다!");
                         // location.replace(`/game/level3?userId=${userId}`);
-
                     },
                     error: (xhr, status, error) => {
                         console.error("AJAX Error:", xhr.responseText);
@@ -414,7 +413,7 @@
                 // "2단계 도전" 버튼 클릭 이벤트 추가
                 const nextLevelBtn = document.getElementById('next-level-btn');
                 nextLevelBtn.addEventListener('click', () => {
-                    location.replace(`/game/level2?userId=${userId}`);
+                    location.replace("/gspeed/level2");
                 });
             } else {
                 alert('시간 초과! 게임이 종료되었습니다.');
@@ -423,32 +422,6 @@
             alert('유리병이 아닌 다른 캐릭터를 선택했습니다. 게임 오버!');
         }
     }
-
-    function detail_faq(){
-
-        $.ajax({
-            url: "/api/game/username",
-            type: "GET",
-            contentType : 'application/json; charset=utf-8',
-            data: {
-                id : userId
-            },
-            cache: false,
-            success: (obj_data, status, xhr)=>{
-                alert("성공")
-                $("#detail_username").text(obj_data.username);
-
-            },
-            error: (obj_data, status, xhr)=>{
-                alert("error!!");
-                alert(JSON.stringify(obj_data));
-            }
-        });
-
-    }
-
-
-    window.addEventListener('load', detail_faq);
     window.addEventListener('load', startCountdown);
 </script>
 </body>

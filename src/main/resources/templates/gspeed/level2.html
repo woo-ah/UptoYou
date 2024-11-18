@@ -190,8 +190,7 @@
 
 
 <div id="top-bar">
-    <div id="stage">Stage1</div>
-    <!--<span id="user-id" th:text="${userId}" style="display: none;"></span>-->
+    <div id="stage">Stage2</div>
     <div id="score">빠르게 캐치하라! (0/5)</div>
     <div id="progress-bar-container">
         <div id="progress-bar"></div>
@@ -208,8 +207,8 @@
 <!-- 모달 창 -->
 <div id="modal" style="display: none;">
     <div id="modal-content">
-        <h2>1단계 성공!</h2>
-        <p>2단계 바로 도전해 볼까요?</p>
+        <h2>2단계 성공!</h2>
+        <p>3단계 바로 도전해 볼까요?</p>
         <img src="/img/logo.png" alt="Character" style="width: 100px; height: auto; margin: 20px 0;">
         <p id="modal-user-text" style="color: #666; font-size: 14px;">
             <a id="detail_username"></a>님, 잘하시는데요?
@@ -224,7 +223,7 @@
             font-size: 16px;
             cursor: pointer;
         ">
-            2단계 도전
+            3단계 도전
         </button>
     </div>
 </div>
@@ -238,9 +237,8 @@
     const modal = document.getElementById('modal');
     const yesBtn = document.getElementById('yes-btn');
 
-    const urlParams = new URL(location.href).searchParams;
-    const userId = urlParams.get('userId');
-    alert(userId);
+    const userId = localStorage.getItem("reqUserId");
+    $("#detail_username").text(localStorage.getItem("reqUserUsername"));
 
     /*const userId = document.getElementById('user-id').textContent.trim();*/
     let score = 0;
@@ -391,19 +389,18 @@
                 modal.style.display = 'flex';
 
                 $.ajax({
-                    url: "/api/game/level1",
+                    url: "/api/gspeed",
                     type: "PUT",
                     contentType: 'application/json; charset=utf-8',
                     data: JSON.stringify({
-                        id: userId,
-                        time: timeTaken
+                        id: localStorage.getItem("gspeedId"),
+                        level2: timeTaken
                     }),
                     cache: false,
                     success: (obj_data, status, xhr) => {
                         console.log("AJAX Success:", obj_data);
                         alert("성공적으로 저장되었습니다!");
                         // location.replace(`/game/level3?userId=${userId}`);
-
                     },
                     error: (xhr, status, error) => {
                         console.error("AJAX Error:", xhr.responseText);
@@ -411,10 +408,10 @@
                     }
                 });
 
-                // "2단계 도전" 버튼 클릭 이벤트 추가
+                // "3단계 도전" 버튼 클릭 이벤트 추가
                 const nextLevelBtn = document.getElementById('next-level-btn');
                 nextLevelBtn.addEventListener('click', () => {
-                    location.replace(`/game/level2?userId=${userId}`);
+                    location.replace("/gspeed/level3");
                 });
             } else {
                 alert('시간 초과! 게임이 종료되었습니다.');
@@ -424,31 +421,6 @@
         }
     }
 
-    function detail_faq(){
-
-        $.ajax({
-            url: "/api/game/username",
-            type: "GET",
-            contentType : 'application/json; charset=utf-8',
-            data: {
-                id : userId
-            },
-            cache: false,
-            success: (obj_data, status, xhr)=>{
-                alert("성공")
-                $("#detail_username").text(obj_data.username);
-
-            },
-            error: (obj_data, status, xhr)=>{
-                alert("error!!");
-                alert(JSON.stringify(obj_data));
-            }
-        });
-
-    }
-
-
-    window.addEventListener('load', detail_faq);
     window.addEventListener('load', startCountdown);
 </script>
 </body>

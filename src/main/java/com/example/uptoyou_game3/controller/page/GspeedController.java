@@ -5,18 +5,18 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-@RequestMapping("/user")
+@RequestMapping("/gspeed")
 @Controller
-public class UserController {
+public class GspeedController {
 
     @GetMapping("/{page}")
     public String page(@PathVariable String page){
-        return "user/" + page;
+        return "gspeed/" + page;
     }
 
     @GetMapping("/{page}/{id}")
     public String page2(@PathVariable String page, @PathVariable String id){
-        return "user/" + page;
+        return "gspeed/" + page;
     }
 
 }

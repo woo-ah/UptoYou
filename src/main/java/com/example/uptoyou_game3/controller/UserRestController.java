@@ -9,7 +9,6 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/api/user")
 @RestController
 public class UserRestController {
-
     private final UserService userService;
     public UserRestController(
             UserService userService
@@ -21,5 +20,4 @@ public class UserRestController {
     public ResponseEntity<UserDto.CreateResDto> create(@RequestBody UserDto.CreateReqDto param){
         return ResponseEntity.ok(userService.create(param));
     }
-
 }

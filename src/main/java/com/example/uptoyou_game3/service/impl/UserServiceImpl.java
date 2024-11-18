@@ -21,7 +21,8 @@ public class UserServiceImpl implements UserService {
         System.out.println("create");
         User user = userRepository.findByUsername(param.getUsername());
         if(user != null){
-            throw new RuntimeException("already exist");
+            return UserDto.CreateResDto.builder().id((long)-200).build();
+            //throw new RuntimeException("already exist");
         }
         return userRepository.save(param.toEntity()).toCreateResDto();
     }
