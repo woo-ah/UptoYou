@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>시상식</title>
+</head>
+<body>
+<span id="user-id" th:text="${userId}" style="display: none;"></span>
+
+<h1>시상식</h1>
+<a id="detail_username"></a>님, <span id="user-medal"></span>
+
+<ul id="award-list"></ul>
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+    const userId = document.getElementById('user-id').textContent.trim();
+
+    function detail_faq() {
+        $.ajax({
+            url: "/api/game/username",
+            type: "GET",
+            contentType: 'application/json; charset=utf-8',
+            data: { id: userId },
+            cache: false,
+            success: (obj_data, status, xhr) => {
+                console.log("AJAX Success:", obj_data);
+                $("#detail_username").text(obj_data.username);
+
+                // 사용자의 등급 확인 및 표시
+                fetchUserMedal(obj_data.username);
+            },
+            error: (obj_data, status, xhr) => {
+                alert("error!!");
+                alert(JSON.stringify(obj_data));
+            }
+        });
+    }
+
+    function fetchUserMedal(username) {
+        $.ajax({
+            url: "/api/game/all", // REST API 엔드포인트
+            type: "GET",
+            cache: false,
+            success: (data) => {
+                console.log("Award Data:", data); // 디버깅용 로그
+                const sortedData = [...data].sort((a, b) => parseFloat(a.time) - parseFloat(b.time));
+                const top10Percent = Math.ceil(sortedData.length * 0.1); // 상위 10%
+                const top30Percent = Math.ceil(sortedData.length * 0.3); // 상위 30%
+
+                // 사용자의 등급 계산
+                const userRank = sortedData.findIndex(item => item.username === username);
+                let userMedal = "동색"; // 기본값
+
+                if (userRank < top10Percent) {
+                    userMedal = "금색";
+                } else if (userRank < top30Percent) {
+                    userMedal = "은색";
+                }
+
+                // 사용자 등급 표시
+                $("#user-medal").text(userMedal);
+
+                // 전체 리스트 표시
+                renderAwardList(sortedData, top10Percent, top30Percent);
+            },
+            error: (xhr, status, error) => {
+                console.error("오류 발생:", error);
+                alert("리스트를 불러오는 중 문제가 발생했습니다.");
+            }
+        });
+    }
+
+    function renderAwardList(sortedData, top10Percent, top30Percent) {
+        const awardList = $("#award-list"); // 리스트 영역
+        awardList.empty(); // 기존 리스트 초기화
+
+        // 데이터를 반복 처리하여 리스트 추가
+        sortedData.forEach((item, index) => {
+            let medal = "동색"; // 기본값
+            if (index < top10Percent) {
+                medal = "금색";
+            } else if (index < top30Percent) {
+                medal = "은색";
+            }
+
+            const listItem = `<li>${medal} - ${item.username}: ${item.time}</li>`;
+            awardList.append(listItem);
+        });
+    }
+
+    window.addEventListener('load', detail_faq);
+</script>
+</body>
+</html>

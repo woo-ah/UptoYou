@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="https://code.jquery.com/jquery-3.7.1.js"></script>
+
+    <style>
+        #base {
+            display: flex; /* Enable flexbox */
+            flex-direction: column; /* Stack children vertically */
+            width: 80%; /* Maintain width */
+            margin: 0 auto; /* Center horizontally */
+        }
+
+
+    </style>
+</head>
+
+<body>
+<div id="base">
+    <p id="main_description">설명</p>
+
+    <span id="user-id" th:text="${username}" style="display: none;"></span>
+
+
+    <button onclick="showModal()">게임 시작</button>
+
+
+
+</div>
+
+
+
+<script>
+    const urlParams = new URLSearchParams(window.location.search);
+    const username = urlParams.get('username');
+    alert(username);
+    function showModal() {
+
+        $.ajax({
+            url: "/api/user",
+            type: "POST",
+            contentType: 'application/json; charset= utf-8',
+            data: JSON.stringify({
+                // username: $("#create_user_username").val()
+                username: username
+            }),
+            cache: false,
+            success: (obj_data, status, xhr) => {
+                localStorage.setItem("userId", obj_data["id"]);
+                location.replace(`/game/level1?userId=${obj_data["id"]}`);
+            },
+            error: (obj_data, status, xhr) => {
+                alert("error!!");
+                alert(JSON.stringify(obj_data));
+            }
+        });
+
+    }
+</script>
+</body>
+</html>
