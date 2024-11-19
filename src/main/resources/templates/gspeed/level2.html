@@ -230,12 +230,12 @@
                     contentType: 'application/json; charset=utf-8',
                     data: JSON.stringify({
                         id: localStorage.getItem("gspeedId"),
-                        level2: timeTaken
+                        level3: timeTaken
                     }),
                     cache: false,
                     success: (obj_data, status, xhr) => {
                         console.log("AJAX Success:", obj_data.id);
-                        localStorage.setItem("gspeedId", obj_data.id);
+                        //localStorage.setItem("gspeedId", obj_data.id);
                         //alert("성공적으로 저장되었습니다!");
                         // location.replace(`/game/level3?userId=${userId}`);
                     },
@@ -248,7 +248,7 @@
                 // "2단계 도전" 버튼 클릭 이벤트 추가
                 const nextLevelBtn = document.getElementById('next-level-btn');
                 nextLevelBtn.addEventListener('click', () => {
-                    location.replace("/gspeed/level2");
+                    location.replace("/gspeed/level3");
                 });
             } else {
                 alert('시간 초과! 게임이 종료되었습니다.');
