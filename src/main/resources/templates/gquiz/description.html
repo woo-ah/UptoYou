@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Stage1</title>
-    <link rel="stylesheet" href="../../static/css/styles.css">
+    <link rel="stylesheet" href="/css/styles.css">
 </head>
 <body class="des">
 <div id="des-base">
@@ -21,12 +21,7 @@
         <button class="des-filter">환경 보호</button>
         <button class="des-filter">퀴즈</button>
     </div>
-
-    <!-- 중앙 동그라미 -->
-    <button id="circle-button" onclick="startGame()">시작</button>
-
-
-    <button id="des-confirm">내용 확인</button>
+    <button id="des-confirm" onclick="showModal()">내용 확인</button>
 </div>
 
 <script>
@@ -35,7 +30,7 @@
             alert("별명을 먼저 입력해주세요.");
             location.replace("/index");
         }
-        location.href = "/gtimer/point";
+        location.href = "/gquiz/point";
     }
 </script>
 </body>

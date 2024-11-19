@@ -2,9 +2,9 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0,minimum-scale=0,maximum-scale=10,user-scalable=no">
     <title>Stage1</title>
-    <link rel="stylesheet" href="../../static/css/styles.css">
+    <link rel="stylesheet" href="/css/styles.css">
 </head>
 <body class="des">
 <div id="des-base">
@@ -23,14 +23,12 @@
     </div>
 
     <!-- 중앙 동그라미 -->
-    <button id="circle-button" onclick="startGame()">시작</button>
-
-
-    <button id="des-confirm">내용 확인</button>
+    <!--<button id="circle-button" onclick="startGame()">시작</button>-->
+    <button id="des-confirm" onclick="startGame()">내용 확인</button>
 </div>
 
 <script>
-    function showModal() {
+    function startGame() {
         if(localStorage.getItem("reqUserId") == null){
             alert("별명을 먼저 입력해주세요.");
             location.replace("/index");

@@ -2,14 +2,11 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0,minimum-scale=0,maximum-scale=10,user-scalable=no">
     <title>시간 게임</title>
-    <link rel="stylesheet" href="../../static/css/styles.css">
+    <link rel="stylesheet" href="/css/styles.css">
 </head>
 <body>
-
-
-
     <div id="gtimer-top-bar">
         <div id="gtimer-stage">Stage2</div>
         <div id="gtimer-number">3</div>
@@ -18,24 +15,12 @@
             <div id="gtimer-progress-bar"></div>
         </div>
     </div>
-    
     <div>
-        <div id="gtimer-countdown" onclick="listener_game();">시작</div>
+        <div id="countdown" onclick="listener_game();">시작</div>
         <div id="gtimer-describe">
             부정한 방법으로 게임에 참여하는 경우,<br> 참여가 중단되거나 리워드가 회수될 수 있습니다.
         </div>
     </div>
-
-<!-- 모달 창
-<div id="modal" style="display: none;">
-    <div id="modal-content">
-        <h2>시간 멈추기 성공!</h2>
-        <p>게임을 클리어 하였어요!</p>
-    </div>
-
-
-</div> -->
-
 <!-- 모달 창 -->
 <div id="modal" style="display: none;">
     <div id="gtimer-modal-content">
@@ -53,12 +38,11 @@
                 <p>3. Recycle(재활용): <br>자원을 새롭게 가공해 다시 활용</p>
             </div>
         </div>
-        <img id="gtimer-modal-image" src="../../static/img/otter2.png" alt="Character">
+        <img id="gtimer-modal-image" src="/img/otter2.png" alt="Character">
         <div class="create-speech-bubble bottom">이 간단한 3단계로 지속 가능한 <br>지구를 만드는데 기여할수 있습니다!</div>
-        <button id="gtimer-modal-button">확인했습니다</button>
+        <button id="gtimer-modal-button" onclick="location.replace('/gtimer/award');">확인했습니다</button>
     </div>
 </div>
-
 
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script>
@@ -95,16 +79,16 @@
                 cache: false,
                 success: (obj_data, status, xhr) => {
                     console.log("AJAX Success:", obj_data);
-                    alert("성공적으로 저장되었습니다!");
+                    //alert("성공적으로 저장되었습니다!");
 
                     const modal = document.getElementById('modal');
                     modal.style.display = 'flex';
 
-                    // 2초 후 모달 닫기 및 페이지 이동
+                    /*// 2초 후 모달 닫기 및 페이지 이동
                     modalTimer = setTimeout(() => {
                         modal.style.display = 'none';
                         location.replace("/gtimer/award");
-                    }, 2000);
+                    }, 2000);*/
                 },
                 error: (xhr, status, error) => {
                     console.error("AJAX Error:", xhr.responseText);
