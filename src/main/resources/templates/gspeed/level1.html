@@ -2,13 +2,11 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0,minimum-scale=0,maximum-scale=10,user-scalable=no">
     <title>유리병 게임</title>
-    <link rel="stylesheet" href="../../static/css/styles.css">
+    <link rel="stylesheet" href="/css/styles.css">
 </head>
 <body>
-
-
 
 <div id="top-bar">
     <div id="stage">Stage1</div>
@@ -18,7 +16,6 @@
         <div id="progress-bar"></div>
     </div>
 </div>
-
 
 <div id="game-container">
     <div id="countdown"></div>
@@ -31,17 +28,15 @@
     <div id="modal-content">
         <h2 id="modal-title">1단계 성공!</h2> <!-- 제목에 id 추가 -->
         <p id="modal-description">2단계 바로 도전해 볼까요?</p> <!-- 설명에 id 추가 -->
-        <img id="modal-image" src="../../static/img/logo.png" alt="Character" > <!-- 이미지에 id 추가 -->
+        <img id="modal-image" src="/img/logo.png" alt="Character" > <!-- 이미지에 id 추가 -->
         <div id="modal-user-text">
-            <a id="detail_username"></a>
-            <div class="create-speech-bubble bottom">님, 잘하시는데요?</div>
+            <div class="create-speech-bubble bottom"><font id="detail_username">-</font>님, 잘하시는데요?</div>
         </div>
         <button id="next-level-btn">
             2단계 도전
         </button>
     </div>
 </div>
-
 
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script>
@@ -96,11 +91,11 @@
         // 이미지 태그 추가
         const img = document.createElement('img');
         if (type === 'glass') {
-            img.src = '../../static/img/game_glass.png';
+            img.src = '/img/game_glass.png';
         } else if (type === 'bulb') {
-            img.src = '../../static/img/game_lightbulb.png';
+            img.src = '/img/game_lightbulb.png';
         } else if (type === 'mirror') {
-            img.src = '../../static/img/game_mirror.png';
+            img.src = '/img/game_mirror.png';
         }
         img.alt = type;
         img.style.width = 'auto';
@@ -115,6 +110,10 @@
             if (!gameActive) return;
 
             const clickedType = event.target.parentElement.dataset.type;
+            /*alert(clickedType);*/
+            if(clickedType + "" === 'undefined'){
+                return false;
+            }
             if (clickedType === 'glass') {
                 score++;
                 scoreDisplay.textContent = '빠르게 캐치하라! (' + score + '/5)';
@@ -237,7 +236,7 @@
                     success: (obj_data, status, xhr) => {
                         console.log("AJAX Success:", obj_data.id);
                         localStorage.setItem("gspeedId", obj_data.id);
-                        alert("성공적으로 저장되었습니다!");
+                        //alert("성공적으로 저장되었습니다!");
                         // location.replace(`/game/level3?userId=${userId}`);
                     },
                     error: (xhr, status, error) => {
@@ -256,7 +255,7 @@
             }
         } else {
             alert('시간이 지났거나, 유리병이 아닌 다른 캐릭터를 선택했습니다. 게임 오버!');
-            //location.reload();
+            location.reload();
         }
     }
     window.addEventListener('load', startCountdown);

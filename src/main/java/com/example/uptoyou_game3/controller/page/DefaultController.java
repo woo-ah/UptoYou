@@ -12,4 +12,9 @@ public class DefaultController {
     public String empty(){
         return "user/create";
     }
+
+    @GetMapping("/rpm")
+    public String rpm(){
+        return "user/create";
+    }
 }
