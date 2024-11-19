@@ -11,6 +11,9 @@
 			,user.gtimer
 			,(user.gquiz + user.gspeed + user.gtimer) as point
 		FROM user
+		WHERE user.gquiz > 0
+		AND user.gspeed > 0
+		AND user.gtimer > 0
 		ORDER BY (user.gquiz + user.gspeed + user.gtimer) ASC
 
 

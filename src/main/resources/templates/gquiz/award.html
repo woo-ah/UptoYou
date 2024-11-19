@@ -1,16 +1,81 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0,minimum-scale=0,maximum-scale=10,user-scalable=no">
     <title>시상식</title>
+    <link rel="stylesheet" href="/css/styles.css">
+
+    <style>
+        .div_panel {
+            justify-content: space-between;
+            align-items: center;
+            background-color: white;
+            margin: 10px 0px;
+            padding : 5px 20px;
+            border-radius: 5px;
+            box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
+        }
+        .div_round {
+            width: 10px;
+            height: 10px;
+            border-radius: 5px;
+            box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
+        }
+        .div_round_p { background-color: #87EAEA; }
+        .div_color_p { color: #87EAEA; }
+        .div_round_g { background-color: #FFC704; }
+        .div_color_g { color: #FFC704; }
+        .div_round_s { background-color: #C2D0DE; }
+        .div_color_s { color: #C2D0DE; }
+        .div_round_b { background-color: #CF9D6E; }
+        .div_color_b { color: #CF9D6E; }
+        .div_text_detail {
+            padding : 3px 0px;
+        }
+        .tr_score {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background-color: white;
+            margin-bottom: 10px;
+            padding : 10px 10px;
+            border-radius: 15px;
+            box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
+        }
+    </style>
+
 </head>
-<body>
+<body class="des">
+<div id="des-base">
+    <div id="des-stage-info">
+        <p class="des-stage">현재 순위</p>
+        <div>
+            <img src="/img/badge_platinum.png" style="height: 100px;width: auto;" alt=""/>
+        </div>
+        <div class="div_panel">
+            <div class="div_text_detail" id="detail_username" style="font-weight: 900;">-</div>
+            <div class="div_text_detail" id="user-medal">-</div>
+            <div class="div_text_detail" id="user-medal_text" style="color: grey;font-size: 0.8em;">-</div>
+        </div>
+        <p class="des-stage">순위표</p>
+    </div>
+    <table style="width:100%;padding-bottom: 100px;" id="award-list">
+        <!--<tr class="tr_score">
+            <td style="text-align: right;width:2.5%;">
+                <div class="div_round div_round_p"></div>
+            </td>
+            <td style="text-align: left;width:17.5%;">
+                <div>Platinum</div>
+            </td>
+            <td style="text-align: center;font-weight:700;width:40%;">홍길동</td>
+            <td style="text-align: right;width:20%;">150점</td>
+        </tr>-->
+    </table>
 
-<h1>시상식</h1>
-<a id="detail_username"></a>님, <span id="user-medal"></span>
-
-<ul id="award-list"></ul>
-
-<button onclick="showModal()">최종순위 보기</button>
+    <div style="height:88px;width:100%;position: fixed;bottom: 0px; background-color: #E2EAF6"></div>
+    <button id="des-confirm" onclick="showModal()" style="position:fixed;">최종순위 보기</button>
+</div>
 
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script>
@@ -21,13 +86,13 @@
 <script>
     $("#detail_username").text(localStorage.getItem("reqUserUsername"));
     $( document ).ready(function() {
-        listGquiz();
+        listGspeed();
     });
 
     let userId = localStorage.getItem("ReqUserId");
-    function listGquiz() {
+    function listGspeed() {
         $.ajax({
-            url: "/api/gquiz/list", // REST API 엔드포인트
+            url: "/api/gtimer/list", // REST API 엔드포인트
             type: "GET",
             cache: false,
             success: (data) => {
@@ -39,18 +104,28 @@
 
                 // 사용자의 등급 계산
                 const userRank = sortedData.findIndex(item => item.userId === userId);
-                let userMedal = "동색"; // 기본값
+                let userMedal = "브론즈"; // 기본값
+                let userLevel = "b"; // 기본값
+                let userMedalPercent = "하위 70%"; // 기본값
 
                 if (userRank < top10Percent) {
                     userMedal = "플래티넘";
+                    userLevel = "p";
+                    userMedalPercent = "상위 2%";
                 } else if (userRank < top10Percent) {
-                    userMedal = "금색";
+                    userMedal = "골드";
+                    userLevel = "g";
+                    userMedalPercent = "상위 10%";
                 } else if (userRank < top30Percent) {
-                    userMedal = "은색";
+                    userMedal = "실버";
+                    userLevel = "s";
+                    userMedalPercent = "상위 30%";
                 }
 
                 // 사용자 등급 표시
                 $("#user-medal").text(userMedal);
+                $("#user-medal_text").text(userMedalPercent);
+                $("#user-medal").addClass("div_color_" + userLevel);
 
                 // 전체 리스트 표시
                 renderAwardList(sortedData, top2Percent, top10Percent, top30Percent);
@@ -68,16 +143,36 @@
 
         // 데이터를 반복 처리하여 리스트 추가
         sortedData.forEach((item, index) => {
-            let medal = "동색"; // 기본값
+            let medal = "Bronze"; // 기본값
+            let tempLevel = "b"; // 기본값
             if (index < top2Percent) {
-                medal = "플래티넘";
+                medal = "Platinum";
+                tempLevel = "p";
             } else if (index < top10Percent) {
-                medal = "금색";
+                medal = "Gold";
+                tempLevel = "g";
             } else if (index < top30Percent) {
-                medal = "은색";
+                medal = "Sliver";
+                tempLevel = "s";
             }
 
-            const listItem = `<li>${medal} - ${item.userUsername}: ${item.point}</li>`;
+            let item_level = Number(item.point);
+            item_level = item_level.toFixed(2);
+
+            const listItem =
+                '<tr class="tr_score">' +
+                '<td style="text-align: right;width:2.5%;">' +
+                '<div class="div_round '+'div_round_' + tempLevel +'"></div>' +
+                '</td>' +
+                '       <td style="text-align: left;width:17.5%;">'+
+                '           <div class="'+'div_color_' + tempLevel +'">'+medal+'</div>'+
+                '       </td>'+
+                '       <td style="text-align: center;font-weight:700;width:40%;">' + item.userUsername + '</td>'+
+                '       <td style="text-align: right;width:20%;">' + item_level + '초</td>'+
+                '   </tr>';
+
+
+            /*`<li><font style="width:60px;">${medal}</font> - ${item.userUsername}: ${item.level}</li>`;*/
             awardList.append(listItem);
         });
     }
