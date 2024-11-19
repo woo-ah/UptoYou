@@ -134,3 +134,33 @@ body.des {
     width: 90%; /* 버튼 너비를 설정 */
     cursor: pointer;
 }
+
+        /* 중앙 동그라미 스타일 */
+        #circle-button {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background-color: #3182F7; /* 파란색 배경 */
+            color: #FFFFFF; /* 흰색 텍스트 */
+            font-size: 24px; /* 텍스트 크기 */
+            font-weight: bold;
+            border: none;
+            border-radius: 50%; /* 동그라미 모양 */
+            width: 150px; /* 너비 */
+            height: 150px; /* 높이 */
+            margin: 20px auto; /* 가운데 정렬 */
+            margin-top: 20vw;
+            cursor: pointer;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2); /* 그림자 효과 */
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+#circle-button:hover {
+    transform: scale(1.1); /* 커지는 효과 */
+    box-shadow: 0 6px 8px rgba(0, 0, 0, 0.3); /* 그림자 강조 */
+}
+
+#circle-button:active {
+    transform: scale(0.95); /* 클릭 시 줄어드는 효과 */
+    box-shadow: 0 3px 5px rgba(0, 0, 0, 0.2);
+}

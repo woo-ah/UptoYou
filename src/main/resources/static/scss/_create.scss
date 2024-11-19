@@ -128,7 +128,7 @@ button.create {
 /*여기서부터 모달*/
 
 #create-modal {
-    display: none!important; /* 기본적으로 숨김 */
+    display: none; /* 기본적으로 숨김 */
     position: fixed;
     top: 0;
     left: 0;

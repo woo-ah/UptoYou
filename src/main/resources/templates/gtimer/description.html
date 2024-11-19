@@ -2,25 +2,31 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
-    <script src="https://code.jquery.com/jquery-3.7.1.js"></script>
-
-    <style>
-        #base {
-            display: flex; /* Enable flexbox */
-            flex-direction: column; /* Stack children vertically */
-            width: 80%; /* Maintain width */
-            margin: 0 auto; /* Center horizontally */
-        }
-
-
-    </style>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Stage1</title>
+    <link rel="stylesheet" href="../../static/css/styles.css">
 </head>
+<body class="des">
+<div id="des-base">
+    <div id="des-stage-info">
+        <p class="des-stage">Stage2</p>
+        <h2>숫자를 맞춰라!</h2>
+        <p class="des-description">
+            숫자 선택 게임입니다! 제공되는 숫자에 가장 가까운 값을 선택하고 버튼을 눌러보세요.
+            숫자가 가진 환경적 의미와 정보를 함께 확인하며 재미있게 환경을 배워보세요!
+        </p>
+    </div>
 
-<body>
-<div id="base">
-    <p id="main_description">설명</p>
-    <button onclick="showModal()">게임 시작</button>
+    <div id="des-filter-buttons"> 
+        <button class="des-filter">환경 보호</button>
+        <button class="des-filter">관련 숫자</button>
+    </div>
+
+    <!-- 중앙 동그라미 -->
+    <button id="circle-button" onclick="startGame()">시작</button>
+
+
+    <button id="des-confirm">내용 확인</button>
 </div>
 
 <script>
