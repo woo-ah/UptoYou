@@ -536,9 +536,10 @@ body {
 
 /* 2단계 도전 버튼 */
 #next-level-btn {
-  position: absolute; /* 위치를 절대값으로 설정 */
-  bottom: 10vw; /* 화면 하단에서 2vw 위로 위치 */
-  left: 50%; /* 화면 가로의 중간으로 위치 */
+  position: absolute;
+  /*position: absolute;*/ /* 위치를 절대값으로 설정 */
+  /*bottom: 10vw;*/ /* 화면 하단에서 2vw 위로 위치 */
+  /*left: 50%;*/ /* 화면 가로의 중간으로 위치 */
   transform: translateX(-50%); /* 버튼을 가로로 정확히 중앙 정렬 */
   background: #3182f7;
   border: none;
@@ -645,7 +646,6 @@ body {
   display: flex; /* 텍스트 정렬을 위한 flex 사용 */
   align-items: center; /* 세로 중앙 정렬 */
   justify-content: center; /* 가로 중앙 정렬 */
-  margin-top: 20vw;
   line-height: 13; /* 줄 높이를 1로 설정 */
   padding: 0; /* 추가 여백 제거 */
 }
@@ -766,179 +766,6 @@ body {
 #gtimer-modal-button:active {
   transform: translateY(0); /* 클릭 시 원래 위치 */
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-}
-
-body {
-  margin: 0;
-  padding: 0;
-  background-color: #E2EAF6; /* Subtle background for overall screen */
-  height: 100vh; /* Full height */
-  display: flex;
-  flex-direction: column;
-}
-
-#gquiz-top-bar {
-  height: 15%;
-  width: 100%;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  background-color: #E2EAF6;
-  padding-top: 10px;
-}
-
-#stage {
-  background: #3182F7;
-  color: white;
-  width: auto;
-  height: 4px;
-  padding: 10px 20px;
-  font-size: 16px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  border-radius: 30px;
-  text-align: center;
-  margin-top: 10px;
-}
-
-#score {
-  font-size: 16px;
-  margin-top: 10px;
-  margin-bottom: 10px;
-  color: #555;
-}
-
-#progress-bar-container {
-  width: 80%;
-  height: 9px;
-  background-color: #D9D9D9;
-  border-radius: 10px;
-  margin-top: 15px;
-  opacity: 0;
-  visibility: hidden;
-}
-
-#progress-bar {
-  width: 100%;
-  height: 100%;
-  background-color: #3182F7;
-  transition: width 0.1s linear;
-  border-radius: 10px;
-}
-
-#game-container {
-  flex: 1; /* Fill remaining height */
-  width: 100%;
-  margin: 0 auto;
-  background-color: #E2EAF6;
-  overflow: hidden;
-  border: 2px solid #bbb; /* Light border */
-  position: relative;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.character {
-  width: 60px;
-  height: 60px;
-  position: absolute;
-  border-radius: 12px; /* Slightly rounded */
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 14px;
-  font-weight: bold;
-  color: white;
-  cursor: pointer;
-  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1); /* Add character shadow */
-}
-
-.glass {
-  background-color: #3498db;
-  border: 2px solid #1e7fb6;
-}
-
-.bulb {
-  background-color: #f1c40f;
-  border: 2px solid #d4aa00;
-}
-
-.mirror {
-  background-color: #e74c3c;
-  border: 2px solid #c0392b;
-}
-
-#countdown {
-  font-size: 50px; /* 텍스트 크기 */
-  color: white; /* 텍스트 색상 */
-  width: 150px; /* 원의 너비 */
-  height: 150px; /* 원의 높이 */
-  border-radius: 50%; /* 원형 */
-  background-color: #3182F7; /* 원 배경 */
-  position: absolute; /* 위치를 부모 기준으로 고정 */
-  top: 40%; /* 부모의 세로 중앙 */
-  left: 50%; /* 부모의 가로 중앙 */
-  transform: translate(-50%, -50%); /* 정확히 중앙으로 이동 */
-  display: flex; /* 텍스트 정렬을 위한 flex 사용 */
-  align-items: center; /* 세로 중앙 정렬 */
-  justify-content: center; /* 가로 중앙 정렬 */
-  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1); /* 그림자 효과 */
-  line-height: 13; /* 줄 높이를 1로 설정 */
-  padding: 0; /* 추가 여백 제거 */
-}
-
-#describe {
-  position: absolute; /* Makes the element positionable relative to the container */
-  width: 100%;
-  bottom: 20px; /* Distance from the bottom of the container */
-  left: 50%; /* Center horizontally */
-  transform: translateX(-50%); /* Ensure perfect horizontal centering */
-  color: #787878; /* Subtle text color */
-  font-size: 14px; /* Adjust font size for readability */
-  text-align: center; /* Center-align the text */
-  line-height: 1.5; /* Improve readability with proper line spacing */
-}
-
-#modal {
-  display: none;
-  position: fixed;
-  width: 100vw; /* 전체 너비 */
-  height: 100vh; /* 전체 높이 */
-  z-index: 1000; /* 다른 요소 위에 표시 */
-  align-items: center;
-  background: #E2EAF6;
-}
-
-#modal-content {
-  width: 100%; /* 모달 콘텐츠도 꽉 차게 */
-  height: 100%; /* 콘텐츠 높이도 화면 전체 */
-  display: flex;
-  flex-direction: column; /* 세로 정렬 */
-  align-items: center; /* 가로 가운데 정렬 */
-  text-align: center; /* 텍스트 가운데 정렬 */
-  box-shadow: none; /* 그림자 제거 */
-  background: white; /* 배경 흰색 */
-  border-radius: 0; /* 둥근 모서리 제거 */
-}
-
-#modal-content h2 {
-  font-size: 24px;
-  color: #333;
-  margin-bottom: 10px;
-}
-
-#modal-content p {
-  font-size: 16px;
-  color: #666;
-  margin: 10px 0;
-}
-
-#modal-content img {
-  width: 100px;
-  height: auto;
-  margin: 20px 0;
 }
 
 html, body {

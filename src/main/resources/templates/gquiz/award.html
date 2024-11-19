@@ -51,7 +51,7 @@
     <div id="des-stage-info">
         <p class="des-stage">현재 순위</p>
         <div>
-            <img src="/img/badge_platinum.png" style="height: 100px;width: auto;" alt=""/>
+            <img id="img_level" src="" style="height: 100px;width: auto;" alt=""/>
         </div>
         <div class="div_panel">
             <div class="div_text_detail" id="detail_username" style="font-weight: 900;">-</div>
@@ -74,7 +74,7 @@
     </table>
 
     <div style="height:88px;width:100%;position: fixed;bottom: 0px; background-color: #E2EAF6"></div>
-    <button id="des-confirm" onclick="showModal()" style="position:fixed;">최종순위 보기</button>
+    <button id="des-confirm" onclick="showModal()" style="position:fixed;">최종 순위 확인</button>
 </div>
 
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
@@ -89,10 +89,10 @@
         listGspeed();
     });
 
-    let userId = localStorage.getItem("ReqUserId");
+    let userId = localStorage.getItem("reqUserId");
     function listGspeed() {
         $.ajax({
-            url: "/api/gtimer/list", // REST API 엔드포인트
+            url: "/api/gquiz/list", // REST API 엔드포인트
             type: "GET",
             cache: false,
             success: (data) => {
@@ -103,29 +103,42 @@
                 const top30Percent = Math.ceil(sortedData.length * 0.3); // 상위 30%
 
                 // 사용자의 등급 계산
-                const userRank = sortedData.findIndex(item => item.userId === userId);
+                let userRank = sortedData.findIndex(item => item.userId === userId);
+                let rank = 0;
+                for(let i=0;i<sortedData.length;i++){
+                    if(sortedData[i].userId + "" === userId + ""){
+                        rank = i;
+                        break;
+                    }
+                }
+                userRank = rank;
                 let userMedal = "브론즈"; // 기본값
                 let userLevel = "b"; // 기본값
                 let userMedalPercent = "하위 70%"; // 기본값
+                let userTitle = "bronze"; // 기본값
 
                 if (userRank < top10Percent) {
                     userMedal = "플래티넘";
                     userLevel = "p";
                     userMedalPercent = "상위 2%";
+                    userTitle = "platinum";
                 } else if (userRank < top10Percent) {
                     userMedal = "골드";
                     userLevel = "g";
                     userMedalPercent = "상위 10%";
+                    userTitle = "gold";
                 } else if (userRank < top30Percent) {
                     userMedal = "실버";
                     userLevel = "s";
                     userMedalPercent = "상위 30%";
+                    userTitle = "silver";
                 }
 
                 // 사용자 등급 표시
                 $("#user-medal").text(userMedal);
                 $("#user-medal_text").text(userMedalPercent);
                 $("#user-medal").addClass("div_color_" + userLevel);
+                $("#img_level").attr("src", "/img/badge_" + userTitle + ".png");
 
                 // 전체 리스트 표시
                 renderAwardList(sortedData, top2Percent, top10Percent, top30Percent);
@@ -156,8 +169,8 @@
                 tempLevel = "s";
             }
 
-            let item_level = Number(item.point);
-            item_level = item_level.toFixed(2);
+            let item_level = 10 - Number(item.point);
+            //item_level = item_level.toFixed(2);
 
             const listItem =
                 '<tr class="tr_score">' +
@@ -168,9 +181,8 @@
                 '           <div class="'+'div_color_' + tempLevel +'">'+medal+'</div>'+
                 '       </td>'+
                 '       <td style="text-align: center;font-weight:700;width:40%;">' + item.userUsername + '</td>'+
-                '       <td style="text-align: right;width:20%;">' + item_level + '초</td>'+
+                '       <td style="text-align: right;width:20%;">' + item_level + '점</td>'+
                 '   </tr>';
-
 
             /*`<li><font style="width:60px;">${medal}</font> - ${item.userUsername}: ${item.level}</li>`;*/
             awardList.append(listItem);

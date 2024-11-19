@@ -74,13 +74,13 @@
     </table>
 
     <div style="height:88px;width:100%;position: fixed;bottom: 0px; background-color: #E2EAF6"></div>
-    <button id="des-confirm" onclick="showModal()" style="position:fixed;">새로운 게임 시작</button>
+    <button id="des-confirm" onclick="showModal()" style="position:fixed;">최종순위 보기</button>
 </div>
 
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script>
     function showModal(){
-        location.replace("/gspeed/description");
+        location.replace("/user/award");
     }
 </script>
 <script>
@@ -92,7 +92,7 @@
     let userId = localStorage.getItem("ReqUserId");
     function listGspeed() {
         $.ajax({
-            url: "/api/user/list", // REST API 엔드포인트
+            url: "/api/gtimer/list", // REST API 엔드포인트
             type: "GET",
             cache: false,
             success: (data) => {
@@ -167,7 +167,7 @@
                 '       <td style="text-align: left;width:17.5%;">'+
                 '           <div class="'+'div_color_' + tempLevel +'">'+medal+'</div>'+
                 '       </td>'+
-                '       <td style="text-align: center;font-weight:700;width:40%;">' + item.username + '</td>'+
+                '       <td style="text-align: center;font-weight:700;width:40%;">' + item.userUsername + '</td>'+
                 '       <td style="text-align: right;width:20%;">' + item_level + '초</td>'+
                 '   </tr>';
 

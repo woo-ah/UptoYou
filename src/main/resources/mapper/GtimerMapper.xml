@@ -11,6 +11,7 @@
 		FROM gtimer, user
 		WHERE gtimer.user_id = user.id
 		  AND gtimer.user_id = #{userId}
+		  AND gtimer.point > 0
 		ORDER BY gtimer.point ASC
 		LIMIT 0,1
 	</select>
@@ -30,6 +31,7 @@
 			gtimer.id
 		FROM gtimer, user
 		WHERE gtimer.user_id = user.id
+		AND gtimer.point > 0
 		ORDER BY gtimer.point ASC
 	</select>
 

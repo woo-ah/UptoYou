@@ -11,6 +11,7 @@
 		FROM gquiz, user
 		WHERE gquiz.user_id = user.id
 		  AND gquiz.user_id = #{userId}
+		  AND gquiz.point > 0
 		ORDER BY gquiz.point ASC
 		LIMIT 0,1
 	</select>
@@ -30,6 +31,7 @@
 			gquiz.id
 		FROM gquiz, user
 		WHERE gquiz.user_id = user.id
+		  AND gquiz.point > 0
 		ORDER BY gquiz.point ASC
 	</select>
 
