@@ -29,26 +29,19 @@
 <!-- 모달 창 -->
 <div id="modal" style="display: none;">
     <div id="modal-content">
-        <h2>1단계 성공!</h2>
-        <p>2단계 바로 도전해 볼까요?</p>
-        <img src="../../static/img/logo.png" alt="Character" style="width: 100px; height: auto; margin: 20px 0;">
-        <p id="modal-user-text" style="color: #666; font-size: 14px;">
-            <a id="detail_username"></a>님, 잘하시는데요?
-        </p>
-
-        <button id="next-level-btn" style="
-            background-color: #3182F7;
-            color: white;
-            border: none;
-            border-radius: 10px;
-            padding: 10px 20px;
-            font-size: 16px;
-            cursor: pointer;
-        ">
+        <h2 id="modal-title">1단계 성공!</h2> <!-- 제목에 id 추가 -->
+        <p id="modal-description">2단계 바로 도전해 볼까요?</p> <!-- 설명에 id 추가 -->
+        <img id="modal-image" src="../../static/img/logo.png" alt="Character" > <!-- 이미지에 id 추가 -->
+        <div id="modal-user-text">
+            <a id="detail_username"></a>
+            <div class="create-speech-bubble bottom">님, 잘하시는데요?</div>
+        </div>
+        <button id="next-level-btn">
             2단계 도전
         </button>
     </div>
 </div>
+
 
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script>
