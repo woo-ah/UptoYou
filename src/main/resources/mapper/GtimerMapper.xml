@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0/EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.uptoyou_game3.mapper.GtimerMapper">
+
+	<select id="max" resultType="com.example.uptoyou_game3.dto.GtimerDto$DetailResDto">
+		SELECT
+			gtimer.id
+			 ,gtimer.user_id as userId
+			 ,gtimer.point
+			 ,user.username as userUsername
+		FROM gtimer, user
+		WHERE gtimer.user_id = user.id
+		  AND gtimer.user_id = #{userId}
+		ORDER BY gtimer.point ASC
+		LIMIT 0,1
+	</select>
+	<!---->
+	<select id="detail" resultType="com.example.uptoyou_game3.dto.GtimerDto$DetailResDto">
+		SELECT
+			gtimer.id
+			,gtimer.user_id as userId
+			,gtimer.point
+			,user.username as userUsername
+		FROM gtimer, user
+		WHERE gtimer.user_id = user.id
+		  AND gtimer.id = #{id}
+	</select>
+	<select id="list" resultType="com.example.uptoyou_game3.dto.GtimerDto$DetailResDto">
+		SELECT
+			gtimer.id
+		FROM gtimer, user
+		WHERE gtimer.user_id = user.id
+		ORDER BY gtimer.point ASC
+	</select>
+
+</mapper>

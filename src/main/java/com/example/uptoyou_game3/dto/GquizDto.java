@@ -1,44 +1,40 @@
 package com.example.uptoyou_game3.dto;
 
-import com.example.uptoyou_game3.domain.User;
+import com.example.uptoyou_game3.domain.Gquiz;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.experimental.SuperBuilder;
 
-public class UserDto {
-
+public class GquizDto {
     @AllArgsConstructor @NoArgsConstructor @SuperBuilder @Setter @Getter
     public static class CreateReqDto {
-        private String username;
-
-        public User toEntity(){
-            return User.of(getUsername());
+        private Long id;
+        private Long userId;
+        private Double point;
+        public Gquiz toEntity(){
+            return Gquiz.of(getUserId(), getPoint());
         }
     }
-
-    @AllArgsConstructor
-    @NoArgsConstructor
-    @SuperBuilder
-    @Setter
-    @Getter
+    @AllArgsConstructor @NoArgsConstructor @SuperBuilder @Setter @Getter
     public static class CreateResDto {
         private Long id;
     }
-
+    @AllArgsConstructor @NoArgsConstructor @SuperBuilder @Setter @Getter
+    public static class UpdateReqDto {
+        private Long id;
+        private Double point;
+    }
     @AllArgsConstructor @NoArgsConstructor @SuperBuilder @Setter @Getter
     public static class ListReqDto {
-        private Long id;
+        private Long userId;
     }
     @AllArgsConstructor @NoArgsConstructor @SuperBuilder @Setter @Getter
     public static class DetailResDto {
         private Long id;
-        private String username;
+        private Long userId;
         private Double point;
-        private Double gquiz;
-        private Double gspeed;
-        private Double gtimer;
+        private String userUsername;
     }
-
 }

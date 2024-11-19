@@ -1,0 +1,292 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>시간 게임</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            background-color: #E2EAF6; /* Subtle background for overall screen */
+            height: 100vh; /* Full height */
+            display: flex;
+            flex-direction: column;
+        }
+
+        #top-bar {
+            height: 15%;
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+
+            background-color: #E2EAF6;
+            box-shadow: 0px 2px 8px rgba(0, 0, 0, 0.1);
+            padding-top: 10px;
+        }
+
+        #stage {
+            background: #3182F7;
+            color: white;
+            width: auto;
+            height: 4px;
+            padding: 10px 20px;
+            font-size: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 30px;
+            text-align: center;
+            margin-top: 10px;
+        }
+
+        #score {
+            font-size: 16px;
+            margin-top: 10px;
+            margin-bottom: 10px;
+            color: #555;
+        }
+
+        #progress-bar-container {
+            width: 80%;
+            height: 9px;
+            background-color: #D9D9D9;
+            border-radius: 10px;
+            margin-top: 15px;
+            opacity: 0;
+            visibility: hidden;
+        }
+
+        #progress-bar {
+            width: 100%;
+            height: 100%;
+            background-color: #3182F7;
+            transition: width 0.1s linear;
+            border-radius: 10px;
+        }
+
+        #game-container {
+            flex: 1; /* Fill remaining height */
+            width: 100%;
+            margin: 0 auto;
+            background-color: #E2EAF6;
+            overflow: hidden;
+            border: 2px solid #bbb; /* Light border */
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .character {
+            width: 60px;
+            height: 60px;
+            position: absolute;
+            border-radius: 12px; /* Slightly rounded */
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 14px;
+            font-weight: bold;
+            color: white;
+            cursor: pointer;
+            box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1); /* Add character shadow */
+        }
+
+        .glass {
+            background-color: #3498db;
+            border: 2px solid #1e7fb6;
+        }
+
+        .bulb {
+            background-color: #f1c40f;
+            border: 2px solid #d4aa00;
+        }
+
+        .mirror {
+            background-color: #e74c3c;
+            border: 2px solid #c0392b;
+        }
+
+        #countdown {
+            font-size: 50px; /* 텍스트 크기 */
+            color: white; /* 텍스트 색상 */
+            width: 150px; /* 원의 너비 */
+            height: 150px; /* 원의 높이 */
+            border-radius: 50%; /* 원형 */
+            background-color: #3182F7; /* 원 배경 */
+            position: absolute; /* 위치를 부모 기준으로 고정 */
+            top: 40%; /* 부모의 세로 중앙 */
+            left: 50%; /* 부모의 가로 중앙 */
+            transform: translate(-50%, -50%); /* 정확히 중앙으로 이동 */
+            display: flex; /* 텍스트 정렬을 위한 flex 사용 */
+            align-items: center; /* 세로 중앙 정렬 */
+            justify-content: center; /* 가로 중앙 정렬 */
+            box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1); /* 그림자 효과 */
+            line-height: 13; /* 줄 높이를 1로 설정 */
+            padding: 0; /* 추가 여백 제거 */
+        }
+
+        #describe {
+            position: absolute; /* Makes the element positionable relative to the container */
+            width: 100%;
+            bottom: 20px; /* Distance from the bottom of the container */
+            left: 50%; /* Center horizontally */
+            transform: translateX(-50%); /* Ensure perfect horizontal centering */
+            color: #787878; /* Subtle text color */
+            font-size: 14px; /* Adjust font size for readability */
+            text-align: center; /* Center-align the text */
+            line-height: 1.5; /* Improve readability with proper line spacing */
+
+        }
+
+
+        #modal {
+            display: none;
+            position: fixed;
+            width: 100vw; /* 전체 너비 */
+            height: 100vh; /* 전체 높이 */
+            z-index: 1000; /* 다른 요소 위에 표시 */
+            align-items: center;
+            background: #E2EAF6;
+        }
+
+        #modal-content {
+            width: 100%; /* 모달 콘텐츠도 꽉 차게 */
+            height: 100%; /* 콘텐츠 높이도 화면 전체 */
+            display: flex;
+            flex-direction: column; /* 세로 정렬 */
+            align-items: center; /* 가로 가운데 정렬 */
+            text-align: center; /* 텍스트 가운데 정렬 */
+            box-shadow: none; /* 그림자 제거 */
+            background: white; /* 배경 흰색 */
+            border-radius: 0; /* 둥근 모서리 제거 */
+        }
+
+
+        #modal-content h2 {
+            font-size: 24px;
+            color: #333;
+            margin-bottom: 10px;
+        }
+
+        #modal-content p {
+            font-size: 16px;
+            color: #666;
+            margin: 10px 0;
+        }
+
+        #modal-content img {
+            width: 100px;
+            height: auto;
+            margin: 20px 0;
+        }
+
+    </style>
+</head>
+<body>
+
+
+
+<div id="top-bar">
+    <div id="stage">Catch Progress</div>
+    <div id="score">3초에 가장 가까운 순간에 버튼을 누르세요!</div>
+    <div id="progress-bar-container">
+        <div id="progress-bar"></div>
+    </div>
+</div>
+
+
+<div id="game-container">
+    <div id="countdown" onclick="listener_game();">시작</div>
+    <div id="describe">
+        부정한 방법으로 게임에 참여하는 경우,<br> 참여가 중단되거나 리워드가 회수될 수 있습니다.</div>
+</div>
+
+<!-- 모달 창 -->
+<div id="modal" style="display: none;">
+    <div id="modal-content">
+        <h2>시간 멈추기 성공!</h2>
+        <p>게임을 클리어 하였어요!</p>
+    </div>
+</div>
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+    let clock = 0;
+    let gameActive = false;
+    let totalGameTime = 10000; // 게임 시간 10초
+    let progressInterval = null;
+
+    const userId = localStorage.getItem("reqUserId");
+    $("#detail_username").text(localStorage.getItem("reqUserUsername"));
+
+    function listener_game() {
+        //alert(1);
+        if(gameActive){
+            clearInterval(progressInterval);
+
+            // 모달 표시
+            const modal = document.getElementById('modal');
+            modal.style.display = 'flex';
+
+            let point = 3 - clock;
+            if(point < 0){
+                point = point * -1;
+            }
+
+            $.ajax({
+                url: "/api/gtimer",
+                type: "POST",
+                contentType: 'application/json; charset=utf-8',
+                data: JSON.stringify({
+                    userId: userId,
+                    point: point
+                }),
+                cache: false,
+                success: (obj_data, status, xhr) => {
+                    console.log("AJAX Success:", obj_data);
+                    alert("성공적으로 저장되었습니다!");
+
+                    const modal = document.getElementById('modal');
+                    modal.style.display = 'flex';
+
+                    // 2초 후 모달 닫기 및 페이지 이동
+                    modalTimer = setTimeout(() => {
+                        modal.style.display = 'none';
+                        location.replace("/gtimer/award");
+                    }, 2000);
+                },
+                error: (xhr, status, error) => {
+                    console.error("AJAX Error:", xhr.responseText);
+                    alert("서버 저장 중 오류가 발생했습니다.");
+                }
+            });
+
+        } else {
+            gameActive = true;
+            let startTime = new Date();
+
+            progressInterval = setInterval(() => {
+                let elapsedTime = new Date() - startTime;
+                let stopTime = elapsedTime + "";
+                if(stopTime.length < 4){
+                    let max_i = stopTime.length;
+                    for(let i=0;i<4-max_i;i++){
+                        stopTime = "0" + stopTime;
+                    }
+                }
+                if(elapsedTime > 10000){
+                    startTime = new Date();
+                }
+                stopTime = stopTime.substring(0,1) + "." + stopTime.substring(1,4);
+                $("#countdown").text(stopTime);
+                clock = Number(stopTime);
+            }, 1);
+        }
+
+    }
+</script>
+</body>
+</html>

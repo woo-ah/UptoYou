@@ -1,10 +1,12 @@
 package com.example.uptoyou_game3.service.impl;
 
 import com.example.uptoyou_game3.domain.Gspeed;
+import com.example.uptoyou_game3.domain.User;
 import com.example.uptoyou_game3.dto.DefaultDto;
 import com.example.uptoyou_game3.dto.GspeedDto;
 import com.example.uptoyou_game3.mapper.GspeedMapper;
 import com.example.uptoyou_game3.repository.GspeedRepository;
+import com.example.uptoyou_game3.repository.UserRepository;
 import com.example.uptoyou_game3.service.GspeedService;
 import org.springframework.stereotype.Service;
 
@@ -16,16 +18,17 @@ public class GspeedServiceImpl implements GspeedService {
 
     private final GspeedRepository gspeedRepository;
     private final GspeedMapper gspeedMapper;
+    private final UserRepository userRepository;
 
     public GspeedServiceImpl(
             GspeedRepository gspeedRepository
             , GspeedMapper gspeedMapper
-
+            , UserRepository userRepository
     ) {
         this.gspeedRepository = gspeedRepository;
         this.gspeedMapper = gspeedMapper;
+        this.userRepository = userRepository;
     }
-
 
     @Override
     public GspeedDto.CreateResDto create(GspeedDto.CreateReqDto param){
@@ -38,6 +41,17 @@ public class GspeedServiceImpl implements GspeedService {
         if(param.getLevel2() != null){ gspeed.setLevel2(param.getLevel2()); }
         if(param.getLevel3() != null){ gspeed.setLevel3(param.getLevel3()); }
         gspeedRepository.save(gspeed);
+
+        // 점수 업데이트
+        Long userId = gspeed.getUserId();
+        GspeedDto.DetailResDto resDto = gspeedMapper.max(GspeedDto.ListReqDto.builder().userId(userId).build());
+        if(resDto != null){
+            User user = userRepository.findById(userId).orElseThrow(()->new RuntimeException("no data"));
+            Double level = resDto.getLevel();
+            System.out.println("level : " + level);
+            user.setGspeed(resDto.getLevel());
+            userRepository.save(user);
+        }
     }
     @Override
     public GspeedDto.DetailResDto detail(DefaultDto.DetailReqDto param){

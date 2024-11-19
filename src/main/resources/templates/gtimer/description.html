@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="https://code.jquery.com/jquery-3.7.1.js"></script>
+
+    <style>
+        #base {
+            display: flex; /* Enable flexbox */
+            flex-direction: column; /* Stack children vertically */
+            width: 80%; /* Maintain width */
+            margin: 0 auto; /* Center horizontally */
+        }
+
+
+    </style>
+</head>
+
+<body>
+<div id="base">
+    <p id="main_description">설명</p>
+    <button onclick="showModal()">게임 시작</button>
+</div>
+
+<script>
+    function showModal() {
+        if(localStorage.getItem("reqUserId") == null){
+            alert("별명을 먼저 입력해주세요.");
+            location.replace("/index");
+        }
+        location.href = "/gtimer/point";
+    }
+</script>
+</body>
+</html>

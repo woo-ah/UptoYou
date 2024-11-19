@@ -2,6 +2,21 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0/EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.example.uptoyou_game3.mapper.GspeedMapper">
 
+	<select id="max" resultType="com.example.uptoyou_game3.dto.GspeedDto$DetailResDto">
+		SELECT
+			gspeed.id
+			 ,gspeed.user_id as userId
+			 ,(gspeed.level1 + gspeed.level2 + gspeed.level3) as level
+			 ,user.username as userUsername
+		FROM gspeed, user
+		WHERE gspeed.user_id = user.id
+		  AND gspeed.user_id = #{userId}
+		  AND gspeed.level2 > 0
+		  AND gspeed.level3 > 0
+		ORDER BY (gspeed.level1 + gspeed.level2 + gspeed.level3) ASC
+		LIMIT 0,1
+	</select>
+	<!---->
 	<select id="detail" resultType="com.example.uptoyou_game3.dto.GspeedDto$DetailResDto">
 		SELECT
 			gspeed.id
