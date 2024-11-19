@@ -3,39 +3,39 @@
 <head>
   <meta charset="UTF-8">
   <title>별명 입력 페이지</title>
-  <link rel="stylesheet" href="/css/styles.css">
+  <link rel="stylesheet" href="../../static/css/styles.css">
   <script src="https://code.jquery.com/jquery-3.7.1.js"></script>
 </head>
-<body>
+<body class="create">
+  <div id="create-base">
+    <p id="create-main_description">별명을 입력해주세요</p>
+    <p id="create-sub_description">나중에 순위 안내 시 사용돼요!</p>
 
+    <p id="create-input_field">
+      <input type="text" class="input_required" id="create_user_username" placeholder="ex) 홍길동" />
+    </p>
 
-<body>
-    <div id="base">
-        <p id="main_description">별명을 입력해주세요</p>
-        <p id="sub_description">나중에 순위 안내 시 사용돼요!</p>
-        
-        <p><input type="text" class="input_required" id="create_user_username" placeholder="ex) 홍길동"/></p>
-        
-        <div class="speech-bubble">게임으로 실천하는 친환경 프로젝트 업투유</div>
-        <img src="/img/logo.png" alt="Character" class="character-icon">
-        <div class="speech-bubble bottom">저와 함께 친환경 게임을 즐겨봐요!</div>
-        
-        <button onclick="showModal()">게임 시작</button>
-        
+    <div class="create-speech-bubble">" 게임으로 실천하는 친환경 프로젝트 업투유 "</div>
+    <img src="../../static/img/logo.png" alt="Character" class="create-character-icon" />
+    <div class="create-speech-bubble bottom">" 저와 함께 친환경 게임을 즐겨봐요! "</div>
+
+    <button class="create" onclick="showModal()">다음 단계</button>
+
+  </div>
+
+  <div id="create-modal">
+    <div id="create-modal-content">
+      <button id="create-previous-button" onclick="closeModal()">이전</button>
+      <h2>게임이 곧 시작돼요</h2>
+      <p>열심히 하셔서 좋은 상품을 노려보세요!</p>
+      <img src="../../static/img/logo.png" alt="Character" class="create-character-icon" />
+      <div class="create-inline-container">
+        <p id="create-modal-username"></p>
+        <div class="create-speech-bubble bottom">" 님, 준비되셨나요? "</div>
+      </div>
     </div>
-        
-        
-    <div id="modal">
-        <div id="modal-content">
-            <button id="previous-button" onclick="closeModal()">이전</button>
-            <h2>게임이 곧 시작돼요</h2>
-            <p>열심히 하셔서 좋은 상품을 노려보세요!</p>
-            <img src="/img/logo.png" alt="Character" class="character-icon">
-            <p id="modal-username"></p>
-        
-        </div>
-    </div>
+  </div>
 
-    <script src="/js/index.js"></script>
+  <script src="../../static/js/create.js"></script>
 </body>
 </html>

@@ -8,7 +8,9 @@
   }
   
   // 나머지 SCSS 파일 import
-  @import 'index';
+  @import 'create';
+  @import 'description';
+  @import 'gspeed';
 
   
   html, body {
@@ -18,3 +20,7 @@
   }
 
   //sass --watch src/main/resources/static/scss/main.scss:src/main/resources/static/css/styles.css
+  //sass --watch static/scss/main.scss:static/css/styles.css
+
+  //폰트 적용을 위함 : font-family: 'PretendardVariable', sans-serif; /* 폰트 적용 */
+

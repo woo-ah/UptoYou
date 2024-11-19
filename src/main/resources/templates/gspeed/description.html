@@ -2,25 +2,55 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
-    <script src="https://code.jquery.com/jquery-3.7.1.js"></script>
-
-    <style>
-        #base {
-            display: flex; /* Enable flexbox */
-            flex-direction: column; /* Stack children vertically */
-            width: 80%; /* Maintain width */
-            margin: 0 auto; /* Center horizontally */
-        }
-
-
-    </style>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Stage1</title>
+    <link rel="stylesheet" href="../../static/css/styles.css">
 </head>
+<body class="des">
+<div id="des-base">
+    <div id="des-stage-info">
+        <p class="des-stage">Stage1</p>
+        <h2>빠르게 캐치하라! <span>0/3</span></h2>
+        <p class="des-description">
+            유리를 재활용하려면 깨끗하고 깨지지 않은 유리만 분리배출해야 해요!
+            불가능한 품목(전구, 거울, 도자기 등)은 재활용되지 않으니, 정확하게 선택해주세요!
+        </p>
+    </div>
 
-<body>
-<div id="base">
-    <p id="main_description">설명</p>
-    <button onclick="showModal()">게임 시작</button>
+    <div id="des-filter-buttons"> 
+        <button class="des-filter">리사이클링</button>
+        <button class="des-filter">유리</button>
+    </div>
+
+    <div id="des-game-items">
+        <!-- 유리 (위쪽) -->
+        <div class="des-item correct">
+            <img src="../../static/img/game_glass.png" alt="유리">
+            <div class="des-icon check"></div>
+            <p>유리</p>
+        </div>
+
+        <!-- 나머지 아이템 (아래쪽) -->
+        <div class="des-item-container">
+            <div class="des-item wrong">
+                <img src="../../static/img/game_lightbulb.png" alt="전구">
+                <div class="des-icon cross"></div>
+                <p>전구</p>
+            </div>
+            <div class="des-item wrong">
+                <img src="../../static/img/game_mirror.png" alt="거울">
+                <div class="des-icon cross"></div>
+                <p>거울</p>
+            </div>
+            <div class="des-item wrong">
+                <img src="../../static/img/game_pottery.png" alt="도자기">
+                <div class="des-icon cross"></div>
+                <p>도자기</p>
+            </div>
+        </div>
+    </div>
+
+    <button id="des-confirm">내용 확인</button>
 </div>
 
 <script>

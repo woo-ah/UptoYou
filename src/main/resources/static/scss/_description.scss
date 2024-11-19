@@ -1,0 +1,136 @@
+body.des {
+    background: #E1E9F5;
+    margin: 0;
+    //font-family: 'PretendardVariable', sans-serif; /* 폰트 적용 */
+}
+
+#des-base {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 6vw;
+}
+
+#des-stage-info {
+    text-align: center;
+    margin-bottom: 2vw;
+}
+
+#des-stage-info .des-stage {
+    background: #3182f7;
+    color: white;
+    padding: 0.7vw 5vw;
+    border-radius: 10vw;
+    font-size: 3.8vw;
+    display: inline-block;
+    margin-bottom: 2vw;
+}
+
+#des-stage-info h2 {
+    font-size: 6vw;
+    font-weight: 600;
+}
+
+#des-stage-info h2 span {
+    font-size: 3.5vw;
+    color: #3182f7;
+}
+
+#des-stage-info .des-description {
+    font-size: 4.3vw;
+    color: #707070;
+    margin-top: 2vw;
+    font-weight: 350;
+}
+
+#des-filter-buttons {
+    display: flex;
+    flex-direction: row; /* Ensure buttons are in a row */
+    align-items: center; /* Vertically center align */
+    justify-content: flex-start; /* Left-align the buttons */
+    gap: 2vw;
+    margin-bottom: 5vw;
+    width: 100%;
+}
+
+#des-filter-buttons .des-filter {
+    background: #E1E9F5;
+    border: 1px solid #3182f7;
+    border-radius: 10vw;
+    padding: 0.5vw 2.5vw;
+    font-size: 3.2vw;
+    color: #5B8DEF;
+}
+
+#des-filter-buttons .des-filter.active {
+    background: #3182f7;
+    color: white;
+}
+
+#des-game-items {
+    display: flex;
+    flex-direction: column;
+    gap: 3vw;
+    margin-bottom: 4vw;
+}
+
+#des-game-items .des-item {
+    position: relative;
+    text-align: center;
+}
+
+#des-game-items .des-item img {
+    width: 12vw;
+    height: auto;
+    margin-bottom: 2vw;
+}
+
+#des-game-items .des-item p {
+    font-size: 3.2vw;
+    color: #333;
+}
+
+/* 공통 스타일 */
+#des-game-items .des-item .des-icon {
+    position: absolute;
+    width: 7vw;
+    height: 7vw;
+    background-size: contain;
+    background-repeat: no-repeat;
+}
+
+/* 체크 아이콘의 위치 (correct) */
+#des-game-items .des-item.correct .des-icon {
+    background-image: url('../img/game_check.png'); /* 체크 아이콘 */
+    top: -1vw; /* 수정된 top 위치 */
+    right: 26vw; /* 수정된 right 위치 */
+}
+
+/* X 아이콘의 위치 (wrong) */
+#des-game-items .des-item.wrong .des-icon {
+    background-image: url('../img/game_x.png'); /* X 아이콘 */
+    top: -2vw; /* 수정된 top 위치 */
+    right: -5vw; /* 수정된 right 위치 */
+}
+
+
+#des-game-items .des-item-container {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20vw;
+}
+
+#des-confirm {
+    position: absolute; /* 위치를 절대값으로 설정 */
+    bottom: 10vw; /* 화면 하단에서 2vw 위로 위치 */
+    left: 50%; /* 화면 가로의 중간으로 위치 */
+    transform: translateX(-50%); /* 버튼을 가로로 정확히 중앙 정렬 */
+    background: #3182f7;
+    border: none;
+    color: white;
+    font-size: 4vw;
+    padding: 2.5vw 2vw;
+    border-radius: 1vw;
+    width: 90%; /* 버튼 너비를 설정 */
+    cursor: pointer;
+}

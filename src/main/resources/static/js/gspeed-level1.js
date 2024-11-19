@@ -1,58 +1,4 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>유리병 게임</title>
-    <link rel="stylesheet" href="../../static/css/styles.css">
-</head>
-<body>
-
-
-
-<div id="top-bar">
-    <div id="stage">Stage1</div>
-    <!--<span id="user-id" th:text="${userId}" style="display: none;"></span>-->
-    <div id="score">빠르게 캐치하라! (0/5)</div>
-    <div id="progress-bar-container">
-        <div id="progress-bar"></div>
-    </div>
-</div>
-
-
-<div id="game-container">
-    <div id="countdown"></div>
-    <div id="describe">
-        부정한 방법으로 게임에 참여하는 경우,<br> 참여가 중단되거나 리워드가 회수될 수 있습니다.</div>
-</div>
-
-<!-- 모달 창 -->
-<div id="modal" style="display: none;">
-    <div id="modal-content">
-        <h2>1단계 성공!</h2>
-        <p>2단계 바로 도전해 볼까요?</p>
-        <img src="../../static/img/logo.png" alt="Character" style="width: 100px; height: auto; margin: 20px 0;">
-        <p id="modal-user-text" style="color: #666; font-size: 14px;">
-            <a id="detail_username"></a>님, 잘하시는데요?
-        </p>
-
-        <button id="next-level-btn" style="
-            background-color: #3182F7;
-            color: white;
-            border: none;
-            border-radius: 10px;
-            padding: 10px 20px;
-            font-size: 16px;
-            cursor: pointer;
-        ">
-            2단계 도전
-        </button>
-    </div>
-</div>
-
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-<script>
-    const scoreDisplay = document.getElementById('score');
+const scoreDisplay = document.getElementById('score');
     const gameContainer = document.getElementById('game-container');
     const countdownDisplay = document.getElementById('countdown');
     const progressBar = document.getElementById('progress-bar');
@@ -78,7 +24,7 @@
         const containerHeight = gameContainer.offsetHeight;
         const characterSize = 50;
         const characters = [];
-        const totalCharacters = Math.floor(Math.random() * 6) + 10; // 10~15개의 캐릭터 생성
+        const totalCharacters = Math.floor(Math.random() * 7) + 12; // 12~18개의 캐릭터 생성
         const glassCount = Math.min(3, totalCharacters); // 유리병 최대 3개
 
         // 유리병 생성
@@ -94,70 +40,49 @@
 
         // 화면에 캐릭터 추가
         characters.forEach(({ x, y, type }) => {
-        const charDiv = document.createElement('div');
-        charDiv.className = `character ${type}`;
-        charDiv.style.left = `${x}px`;
-        charDiv.style.top = `${y}px`;
-        charDiv.dataset.type = type;
+            const charDiv = document.createElement('div');
+            charDiv.className = `character ${type}`;
+            charDiv.style.left = `${x}px`;
+            charDiv.style.top = `${y}px`;
+            charDiv.dataset.type = type;
+            charDiv.textContent = type === 'glass' ? '유리병' : type === 'bulb' ? '전구' : '거울';
+            gameContainer.appendChild(charDiv);
 
-        // 이미지 태그 추가
-        const img = document.createElement('img');
-        if (type === 'glass') {
-            img.src = '../../static/img/game_glass.png';
-        } else if (type === 'bulb') {
-            img.src = '../../static/img/game_lightbulb.png';
-        } else if (type === 'mirror') {
-            img.src = '../../static/img/game_mirror.png';
-        }
-        img.alt = type;
-        img.style.width = 'auto';
-        img.style.height = '100%';
+            charDiv.addEventListener('click', (event) => {
+                if (!gameActive) return;
 
-        // 이미지 추가
-        charDiv.appendChild(img);
+                const clickedType = event.target.dataset.type;
+                if (clickedType === 'glass') {
+                    score++;
+                    scoreDisplay.textContent = '빠르게 캐치하라! (' + score + '/5)';
 
-        gameContainer.appendChild(charDiv);
+                    event.target.remove(); // 클릭된 유리병 즉시 제거
 
-        charDiv.addEventListener('click', (event) => {
-            if (!gameActive) return;
-
-            const clickedType = event.target.parentElement.dataset.type;
-            if (clickedType === 'glass') {
-                score++;
-                scoreDisplay.textContent = '빠르게 캐치하라! (' + score + '/5)';
-
-                event.target.parentElement.remove(); // 클릭된 유리병 즉시 제거
-
-                if (score === 5) {
-                    const endTime = new Date();
-                    const timeTaken = ((endTime - startTime) / 1000).toFixed(2);
+                    if (score === 5) {
+                        const endTime = new Date();
+                        const timeTaken = ((endTime - startTime) / 1000).toFixed(2);
+                        gameActive = false;
+                        endGame(true, timeTaken);
+                    }
+                } else {
                     gameActive = false;
-                    endGame(true, timeTaken);
+                    endGame(false);
                 }
-            } else {
-                gameActive = false;
-                endGame(false);
-            }
+            });
         });
-    });
-}
+    }
 
     function createCharacter(characters, containerWidth, containerHeight, characterSize, type) {
         let x, y, overlap;
-
         do {
             overlap = false;
             x = Math.random() * (containerWidth - characterSize);
             y = Math.random() * (containerHeight - characterSize);
 
-            // 기존 캐릭터들과의 거리 계산
             for (let char of characters) {
                 const dx = char.x - x;
                 const dy = char.y - y;
-                const distance = Math.sqrt(dx * dx + dy * dy);
-
-                // 거리 계산을 통해 겹침 여부 확인 (캐릭터 크기의 1.5배 거리로 설정)
-                if (distance < characterSize * 1.8) {
+                if (Math.sqrt(dx * dx + dy * dy) < characterSize) {
                     overlap = true;
                     break;
                 }
@@ -166,7 +91,6 @@
 
         characters.push({ x, y, type });
     }
-
 
     function startCountdown() {
         let count = 3;
@@ -262,11 +186,7 @@
                 alert('시간 초과! 게임이 종료되었습니다.');
             }
         } else {
-            alert('시간이 지났거나, 유리병이 아닌 다른 캐릭터를 선택했습니다. 게임 오버!');
-            //location.reload();
+            alert('유리병이 아닌 다른 캐릭터를 선택했습니다. 게임 오버!');
         }
     }
     window.addEventListener('load', startCountdown);
-</script>
-</body>
-</html>
