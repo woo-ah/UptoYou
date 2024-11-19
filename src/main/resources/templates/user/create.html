@@ -1,223 +1,41 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-    <script src="https://code.jquery.com/jquery-3.7.1.js"></script>
-
-    <style>
-        body{
-            background: #E2EAF6;
-        }
-        #base {
-            display: flex; /* Enable flexbox */
-            flex-direction: column; /* Stack children vertically */
-            width: 80%; /* Maintain width */
-            margin: 0 auto; /* Center horizontally */
-            background: #E2EAF6;
-        }
-        #main_description {
-            font-size: 45px;
-            margin-bottom: 0;
-            margin-top: 50px;
-        }
-        #sub_description {
-            font-size: 25px;
-            color: #787878;
-        }
-        input {
-            border: none; /* Remove all borders */
-            border-bottom: 1px solid #3182F7; /* Add a bottom border */
-            outline: none; /* Remove the default focus outline */
-            background: transparent; /* Make the background transparent */
-            font-size: 30px; /* Adjust the font size */
-            color: #555; /* Set text color */
-            padding: 4px 0; /* Add some padding for spacing */
-            width: 100%;
-        }
-        input::placeholder {
-            color: #5F5F5F; /* Adjust placeholder color */
-        }
-        button {
-            background: #3182F7;
-            border: none;
-            color: white;
-            font-size: 18px;
-            padding: 10px 20px;
-            border-radius: 5px;
-        }
-        .speech-bubble {
-            position: relative;
-            background: #F0F8FF;
-            border: 2px solid #3182F7;
-            border-radius: 10px;
-            padding: 15px 20px;
-            margin: 20px 0;
-            font-size: 18px;
-            color: #333;
-            text-align: center;
-            max-width: 80%;
-        }
-        .speech-bubble::after {
-            content: "";
-            position: absolute;
-            bottom: -20px;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 0;
-            height: 0;
-            border-width: 10px;
-            border-style: solid;
-            border-color: #F0F8FF transparent transparent transparent;
-        }
-        .speech-bubble::before {
-            content: "";
-            position: absolute;
-            bottom: -22px;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 0;
-            height: 0;
-            border-width: 11px;
-            border-style: solid;
-            border-color: #3182F7 transparent transparent transparent;
-        }
-
-        .speech-bubble.bottom {
-            margin-top: 20px;
-        }
-        .speech-bubble.bottom::after {
-            top: -20px;
-            bottom: auto;
-            border-color: transparent transparent #F0F8FF transparent;
-        }
-        .speech-bubble.bottom::before {
-            top: -22px;
-            bottom: auto;
-            border-color: transparent transparent #3182F7 transparent;
-        }
-
-        /* Modal styling */
-        #modal {
-            display: none; /* Initially hidden */
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-color: rgba(0, 0, 0, 0.5); /* Semi-transparent background */
-            z-index: 1000; /* Bring it above other elements */
-            align-items: center;
-            justify-content: center;
-        }
-        #modal-content {
-            background: #F0F8FF;
-            border-radius: 10px;
-            padding: 20px;
-            text-align: center;
-            width: 80%;
-            max-width: 400px;
-        }
-        #modal h2 {
-            font-size: 24px;
-            margin: 0;
-            color: #333;
-        }
-        #modal p {
-            margin-top: 10px;
-            font-size: 18px;
-            color: #666;
-        }
-        .character-icon {
-            width: 100px;
-            height: auto;
-            margin: 20px 0;
-        }
-    </style>
+  <meta charset="UTF-8">
+  <title>별명 입력 페이지</title>
+  <link rel="stylesheet" href="/css/styles.css">
+  <script src="https://code.jquery.com/jquery-3.7.1.js"></script>
 </head>
+<body>
+
 
 <body>
-<div id="base">
-    <p id="main_description">별명을 입력해주세요</p>
-    <p id="sub_description">나중에 순위 안내 시 사용돼요!</p>
-
-    <p><input type="text" class="input_required" id="create_user_username" placeholder="ex) 홍길동"/></p>
-
-    <div class="speech-bubble">게임으로 실천하는 친환경 프로젝트 업투유</div>
-    <img src="/img/logo.png" alt="Character" style="width: 100px; height: auto; margin: 20px 0;">
-    <div class="speech-bubble bottom">저와 함께 친환경 게임을 즐겨봐요!</div>
-
-    <button onclick="showModal()">게임 시작</button>
-
-</div>
-
-
-<div id="modal">
-    <div id="modal-content">
-        <button id="previous-button" onclick="closeModal()">이전</button>
-        <h2>게임이 곧 시작돼요</h2>
-        <p>열심히 하셔서 좋은 상품을 노려보세요!</p>
+    <div id="base">
+        <p id="main_description">별명을 입력해주세요</p>
+        <p id="sub_description">나중에 순위 안내 시 사용돼요!</p>
+        
+        <p><input type="text" class="input_required" id="create_user_username" placeholder="ex) 홍길동"/></p>
+        
+        <div class="speech-bubble">게임으로 실천하는 친환경 프로젝트 업투유</div>
         <img src="/img/logo.png" alt="Character" class="character-icon">
-        <p id="modal-username"></p>
-
+        <div class="speech-bubble bottom">저와 함께 친환경 게임을 즐겨봐요!</div>
+        
+        <button onclick="showModal()">게임 시작</button>
+        
     </div>
-</div>
+        
+        
+    <div id="modal">
+        <div id="modal-content">
+            <button id="previous-button" onclick="closeModal()">이전</button>
+            <h2>게임이 곧 시작돼요</h2>
+            <p>열심히 하셔서 좋은 상품을 노려보세요!</p>
+            <img src="/img/logo.png" alt="Character" class="character-icon">
+            <p id="modal-username"></p>
+        
+        </div>
+    </div>
 
-<script>
-    let modalTimer;
-    function showModal() {
-        let inputRequired = $(".input_required");
-        for (let each of inputRequired) {
-            let tempValue = $.trim($(each).val());
-            if (tempValue == null || tempValue === "") {
-                alert("별명을 입력하세요");
-                $(each).focus();
-                return false;
-            }
-        }
-        let username = $("#create_user_username").val();
-        $.ajax({
-            url: "/api/user", // 회원 가입
-            type: "POST",
-            contentType: "application/json; charset=utf-8",
-            data: JSON.stringify({
-                username: username
-            }),
-            cache: false,
-            success: (response) => {
-                if(response.id === -200){
-                    showDuplicateMessage();
-                } else {
-                    localStorage.setItem("reqUserId", response.id);
-                    localStorage.setItem("reqUserUsername", username);
-                    location.replace("/gspeed/description");
-                }
-            },
-            error: (xhr, status, error) => {
-                reject(error); // 오류 발생 시 거부
-            },
-        });
-    }
-    function showDuplicateMessage() {
-        // 중복 메시지 표시
-        let messageBox = document.getElementById("duplicate-message");
-        if (!messageBox) {
-            // 메시지 박스가 없으면 생성
-            messageBox = document.createElement("p");
-            messageBox.id = "duplicate-message";
-            messageBox.style.color = "red";
-            messageBox.style.fontSize = "16px";
-            messageBox.style.marginTop = "10px";
-            document.getElementById("create_user_username").parentElement.appendChild(messageBox);
-        }
-        messageBox.textContent = "중복된 이름입니다. 다른 이름을 입력해주세요.";
-    }
-    function closeModal() {
-        const modal = document.getElementById('modal');
-        modal.style.display = 'none';
-        clearTimeout(modalTimer); // 타이머 중단
-    }
-</script>
-
+    <script src="/js/index.js"></script>
 </body>
 </html>

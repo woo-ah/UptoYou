@@ -1,0 +1,156 @@
+@font-face {
+  font-family: "PretendardVariable";
+  src: url("../fonts/PretendardVariable.ttf") format("truetype");
+  font-weight: normal;
+  font-style: normal;
+}
+body {
+  background: #E2EAF6;
+}
+
+#base {
+  display: flex; /* Enable flexbox */
+  flex-direction: column; /* Stack children vertically */
+  width: 80%; /* Maintain width */
+  margin: 0 auto; /* Center horizontally */
+  background: #E2EAF6;
+}
+
+#main_description {
+  font-size: 45px;
+  margin-bottom: 0;
+  margin-top: 50px;
+}
+
+#sub_description {
+  font-size: 25px;
+  color: #787878;
+}
+
+input {
+  border: none; /* Remove all borders */
+  border-bottom: 1px solid #3182F7; /* Add a bottom border */
+  outline: none; /* Remove the default focus outline */
+  background: transparent; /* Make the background transparent */
+  font-size: 30px; /* Adjust the font size */
+  color: #555; /* Set text color */
+  padding: 4px 0; /* Add some padding for spacing */
+  width: 100%;
+}
+
+input::placeholder {
+  color: #5F5F5F; /* Adjust placeholder color */
+}
+
+button {
+  background: #3182F7;
+  border: none;
+  color: white;
+  font-size: 18px;
+  padding: 10px 20px;
+  border-radius: 5px;
+}
+
+.speech-bubble {
+  position: relative;
+  background: #F0F8FF;
+  border: 2px solid #3182F7;
+  border-radius: 10px;
+  padding: 15px 20px;
+  margin: 20px 0;
+  font-size: 18px;
+  color: #333;
+  text-align: center;
+  max-width: 80%;
+}
+
+.speech-bubble::after {
+  content: "";
+  position: absolute;
+  bottom: -20px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 0;
+  height: 0;
+  border-width: 10px;
+  border-style: solid;
+  border-color: #F0F8FF transparent transparent transparent;
+}
+
+.speech-bubble::before {
+  content: "";
+  position: absolute;
+  bottom: -22px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 0;
+  height: 0;
+  border-width: 11px;
+  border-style: solid;
+  border-color: #3182F7 transparent transparent transparent;
+}
+
+.speech-bubble.bottom {
+  margin-top: 20px;
+}
+
+.speech-bubble.bottom::after {
+  top: -20px;
+  bottom: auto;
+  border-color: transparent transparent #F0F8FF transparent;
+}
+
+.speech-bubble.bottom::before {
+  top: -22px;
+  bottom: auto;
+  border-color: transparent transparent #3182F7 transparent;
+}
+
+/* Modal styling */
+#modal {
+  display: none; /* Initially hidden */
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5); /* Semi-transparent background */
+  z-index: 1000; /* Bring it above other elements */
+  align-items: center;
+  justify-content: center;
+}
+
+#modal-content {
+  background: #F0F8FF;
+  border-radius: 10px;
+  padding: 20px;
+  text-align: center;
+  width: 80%;
+  max-width: 400px;
+}
+
+#modal h2 {
+  font-size: 24px;
+  margin: 0;
+  color: #333;
+}
+
+#modal p {
+  margin-top: 10px;
+  font-size: 18px;
+  color: #666;
+}
+
+.character-icon {
+  width: 100px;
+  height: auto;
+  margin: 20px 0;
+}
+
+html, body {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/*# sourceMappingURL=styles.css.map */

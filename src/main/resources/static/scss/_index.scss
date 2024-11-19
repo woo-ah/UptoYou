@@ -1,0 +1,141 @@
+body {
+    background: #E2EAF6;
+}
+
+#base {
+    display: flex; /* Enable flexbox */
+    flex-direction: column; /* Stack children vertically */
+    width: 80vw; /* Maintain width */
+    margin: 0 auto; /* Center horizontally */
+}
+
+#main_description {
+    font-size: 3vw; /* Convert 45px to vw */
+    margin-bottom: 0;
+    margin-top: 5vw; /* Convert 50px to vw */
+}
+
+#sub_description {
+    font-size: 1.8vw; /* Convert 25px to vw */
+    color: #787878;
+}
+
+input {
+    border: none; /* Remove all borders */
+    border-bottom: 0.1vw solid #3182F7; /* Convert 1px to vw */
+    outline: none; /* Remove the default focus outline */
+    background: transparent; /* Make the background transparent */
+    font-size: 2vw; /* Convert 30px to vw */
+    color: #555; /* Set text color */
+    padding: 0.4vw 0; /* Convert 4px to vw */
+    width: 100%;
+}
+
+input::placeholder {
+    color: #5F5F5F; /* Adjust placeholder color */
+}
+
+button {
+    background: #3182F7;
+    border: none;
+    color: white;
+    font-size: 1.2vw; /* Convert 18px to vw */
+    padding: 1vw 2vw; /* Convert 10px 20px to vw */
+    border-radius: 0.5vw; /* Convert 5px to vw */
+}
+
+.speech-bubble {
+    position: relative;
+    background: #F0F8FF;
+    border: 0.2vw solid #3182F7; /* Convert 2px to vw */
+    border-radius: 1vw; /* Convert 10px to vw */
+    padding: 1.5vw 2vw; /* Convert 15px 20px to vw */
+    margin: 2vw 0; /* Convert 20px 0 to vw */
+    font-size: 1.2vw; /* Convert 18px to vw */
+    color: #333;
+    text-align: center;
+    max-width: 80vw;
+}
+
+.speech-bubble::after {
+    content: "";
+    position: absolute;
+    bottom: -2vw; /* Convert -20px to vw */
+    left: 50%;
+    transform: translateX(-50%);
+    width: 0;
+    height: 0;
+    border-width: 1vw; /* Convert 10px to vw */
+    border-style: solid;
+    border-color: #F0F8FF transparent transparent transparent;
+}
+
+.speech-bubble::before {
+    content: "";
+    position: absolute;
+    bottom: -2.2vw; /* Convert -22px to vw */
+    left: 50%;
+    transform: translateX(-50%);
+    width: 0;
+    height: 0;
+    border-width: 1.1vw; /* Convert 11px to vw */
+    border-style: solid;
+    //border-color: #3182F7 transparent transparent transparent;
+}
+
+.speech-bubble.bottom {
+    margin-top: 2vw; /* Convert 20px to vw */
+}
+
+.speech-bubble.bottom::after {
+    top: -2vw; /* Convert -20px to vw */
+    bottom: auto;
+    border-color: transparent transparent #FFFFFF transparent;
+}
+
+.speech-bubble.bottom::before {
+    top: -2.2vw; /* Convert -22px to vw */
+    bottom: auto;
+    //border-color: transparent transparent #3182F7 transparent;
+}
+
+/* Modal styling */
+#modal {
+    display: none; /* Initially hidden */
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh; /* Convert to vw for height */
+    background-color: rgba(0, 0, 0, 0.5); /* Semi-transparent background */
+    z-index: 1000; /* Bring it above other elements */
+    align-items: center;
+    justify-content: center;
+}
+
+#modal-content {
+    background: #F0F8FF;
+    border-radius: 1vw; /* Convert 10px to vw */
+    padding: 2vw; /* Convert 20px to vw */
+    text-align: center;
+    width: 80vw;
+    max-width: 40vw; /* Convert 400px to vw */
+}
+
+#modal h2 {
+    font-size: 1.6vw; /* Convert 24px to vw */
+    margin: 0;
+    color: #333;
+}
+
+#modal p {
+    margin-top: 1vw; /* Convert 10px to vw */
+    font-size: 1.2vw; /* Convert 18px to vw */
+    color: #666;
+}
+
+.character-icon {
+    width: 10vw; /* Convert 100px to vw */
+    height: auto;
+    margin: 2vw 0; /* Convert 20px to vw */
+}

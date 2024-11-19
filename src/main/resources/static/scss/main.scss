@@ -1,0 +1,20 @@
+// main.scss
+
+@font-face {
+    font-family: 'PretendardVariable';
+    src: url('../fonts/PretendardVariable.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+  }
+  
+  // 나머지 SCSS 파일 import
+  @import 'index';
+
+  
+  html, body {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+
+  //sass --watch src/main/resources/static/scss/main.scss:src/main/resources/static/css/styles.css
