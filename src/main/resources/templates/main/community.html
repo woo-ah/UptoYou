@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Header with Modal</title>
+    <style>
+        body {
+            margin: 0; /* 기본 마진 제거 */
+            padding: 0; /* 기본 패딩도 제거 (필요 시) */
+            box-sizing: border-box; /* 박스 크기 계산 방식 설정 */
+        }
+        /* 공통 헤더 스타일 */
+        #header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%; /* 전체 화면 너비 */
+            height: 8vh; /* 화면 높이에 비례하여 설정 */
+            display: flex;
+            align-items: center;
+            justify-content: space-between; /* 로고와 버튼 양쪽 끝 배치 */
+            padding: 0 5vw; /* 좌우 여백을 줄여서 버튼 밀림 방지 */
+            background-color: rgba(255, 255, 255, 0); /* 투명 배경 */
+            z-index: 1000;
+            font-family: "Pretendard", sans-serif;
+            box-sizing: border-box; /* 여백 포함한 크기 계산 */
+        }
+
+        /* 로고 스타일 */
+        #header_logo {
+            height: 2vh; /* 로고 크기 설정 */
+            cursor: pointer;
+        }
+
+        /* 햄버거 버튼 스타일 */
+        #hamburger-btn {
+            font-size: 1.5em;
+            background: none;
+            border: none;
+            cursor: pointer;
+            margin-left: auto; /* 로고와 버튼 사이에 여백 확보 */
+        }
+
+        /* 모달 메뉴 */
+        #modal-menu {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(255, 255, 255, 0.9); /* 80% 투명도 */
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            z-index: 2000;
+            font-family: "Pretendard", sans-serif;
+        }
+
+        /* 모달 헤더 */
+        #modal-header {
+            width: 93%; /* 너비를 90%로 유지 */
+            display: flex;
+            justify-content: space-between; /* 닫기 버튼과 로고를 양 끝으로 배치 */
+            align-items: center; /* 수직 가운데 정렬 */
+            position: absolute;
+            margin-top: 10px;
+            top: 0;
+            left: 50%; /* 화면의 정중앙 기준 */
+            transform: translateX(-50%); /* 중앙 정렬 */
+            height: 60px;
+            z-index: 2100;
+        }
+
+        /* 로고 */
+        #logo {
+            height: 20px;
+            padding-left: 3vw;
+        }
+
+        /* 닫기 버튼 */
+        #close-btn {
+            position: absolute; /* 위치 고정 */
+            top: 2vh; /* 화면 높이에 비례한 상단 여백 */
+            right: 2vw; /* 화면 너비에 비례한 오른쪽 여백 */
+            font-size: 1.5em; /* 닫기 버튼 크기 */
+            background: none; /* 배경 제거 */
+            border: none; /* 테두리 제거 */
+            cursor: pointer; /* 클릭 가능한 모양 */
+            color: #333; /* 닫기 버튼 색상 */
+            z-index: 2200; /* 닫기 버튼이 항상 위에 보이도록 설정 */
+        }
+
+
+        /* 모달 숨김 */
+        #modal-menu.hidden {
+            display: none;
+        }
+
+        /* 모달 리스트 */
+        #modal-menu ul {
+            list-style: none;
+            text-align: center;
+            padding: 0;
+        }
+
+        #modal-menu ul li {
+            margin: 15px 0;
+            font-size: 1.2em;
+        }
+
+        #modal-menu ul li a {
+            text-decoration: none;
+            color: #333;
+            font-size: 1.5em;
+        }
+        /* 현재 페이지 링크 스타일 */
+        #modal-menu ul li a.active {
+            color: #007BFF; /* 파란색 */
+            font-weight: bold; /* 굵은 글씨 */
+        }
+
+        /* 전체 섹션 스타일 */
+        .coming-soon {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: #e8f4ff; /* 연한 파란색 배경 */
+            text-align: center;
+            font-family: "Pretendard", sans-serif;
+        }
+
+        /* 섹션 내용 */
+        .coming-soon-content {
+            background-color: #ffffff; /* 흰색 카드 */
+            padding: 30px 20px;
+            border-radius: 20px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            max-width: 400px;
+            width: 90%;
+            margin: 5vw;
+        }
+
+        /* 제목 */
+        .coming-soon-content h1 {
+            font-size: 24px;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+
+        /* 설명 */
+        .coming-soon-content p {
+            font-size: 16px;
+            margin-bottom: 20px;
+            color: #333;
+        }
+
+        /* 폼 */
+        .email-form {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        /* 이메일 입력창 */
+        .email-form input {
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            padding: 10px;
+            font-size: 14px;
+            outline: none;
+        }
+
+        /* 제출 버튼 */
+        .email-form button {
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            padding: 10px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .email-form button:hover {
+            background-color: #0056b3;
+        }
+
+        /* 응답 메시지 */
+        #response-message {
+            font-size: 14px;
+            color: #007bff;
+            margin-top: 10px;
+            display: none;
+        }
+
+        #response-message.hidden {
+            display: none;
+        }
+        /* 로고 */
+        #otter_logo {
+            height: 20vw;
+            padding-left: 3vw;
+        }
+
+
+    </style>
+</head>
+<body>
+<!-- 공통 헤더 리스트 -->
+<div id="header">
+    <img id="header_logo" src="/img/UTU.png" alt="Logo">
+    <button id="hamburger-btn">☰</button>
+</div>
+
+<div id="modal-menu" class="hidden">
+    <div id="modal-header">
+        <img id="logo" src="/img/UTU.png" alt="Logo">
+        <button id="close-btn">X</button>
+    </div>
+    <ul>
+        <li><a href="/home">Home</a></li>
+        <li><a href="/game">Game</a></li>
+        <li><a href="/shop">Shop</a></li>
+        <li><a href="/community">Community</a></li>
+        <li><a href="/about">About Us</a></li>
+    </ul>
+</div>
+
+<!-- 페이지 콘텐츠 -->
+<main id="content">
+    <section class="coming-soon">
+        <div class="coming-soon-content">
+            <img id="otter_logo" src="/img/logo.png" alt="Logo">
+            <h1>서비스 준비 중입니다</h1>
+            <p>출시 알림을 받고 싶으시면 이메일을 입력해주세요!</p>
+            <form class="email-form" id="email-form">
+                <input
+                        type="email"
+                        id="email-input"
+                        placeholder="이메일을 입력하세요"
+                        required
+                />
+                <button type="submit">알림받기</button>
+            </form>
+            <p id="response-message" class="hidden">감사합니다! 이메일을 등록했습니다.</p>
+        </div>
+    </section>
+</main>
+
+<script>
+    // 햄버거 버튼과 모달 제어
+    const hamburgerBtn = document.getElementById('hamburger-btn');
+    const modalMenu = document.getElementById('modal-menu');
+    const closeBtn = document.getElementById('close-btn');
+
+    // 햄버거 버튼 클릭 시 모달 열기
+    hamburgerBtn.addEventListener('click', () => {
+        modalMenu.classList.remove('hidden');
+    });
+
+    // 닫기 버튼 클릭 시 모달 닫기
+    closeBtn.addEventListener('click', () => {
+        modalMenu.classList.add('hidden');
+    });
+
+    // 현재 URL에 따라 활성화된 링크 스타일 적용
+    const links = document.querySelectorAll('#modal-menu ul li a');
+    const currentPath = window.location.pathname; // 현재 URL 경로
+
+    links.forEach(link => {
+        if (link.getAttribute('href') === currentPath) {
+            link.classList.add('active'); // 현재 페이지에 'active' 클래스 추가
+        }
+    });
+
+    document.getElementById("email-form").addEventListener("submit", function (event) {
+        event.preventDefault(); // 폼 기본 동작 방지
+
+        const emailInput = document.getElementById("email-input");
+        const responseMessage = document.getElementById("response-message");
+
+        if (emailInput.value) {
+            // 이메일 값이 입력되었을 경우
+            responseMessage.textContent = "감사합니다! 이메일을 등록했습니다.";
+            responseMessage.classList.remove("hidden");
+            emailInput.value = ""; // 입력창 초기화
+        }
+    });
+
+
+
+</script>
+</body>
+</html>

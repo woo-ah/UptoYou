@@ -1,0 +1,493 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Header with Modal</title>
+    <style>
+        /* 공통 헤더 스타일 */
+        #header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%; /* 전체 화면 너비 */
+            height: 8vh; /* 화면 높이에 비례하여 설정 */
+            display: flex;
+            align-items: center;
+            justify-content: space-between; /* 로고와 버튼 양쪽 끝 배치 */
+            padding: 0 5vw; /* 좌우 여백을 줄여서 버튼 밀림 방지 */
+            background-color: rgba(255, 255, 255, 0); /* 투명 배경 */
+            z-index: 1000;
+            font-family: "Pretendard", sans-serif;
+            box-sizing: border-box; /* 여백 포함한 크기 계산 */
+        }
+
+        /* 로고 스타일 */
+        #header_logo {
+            height: 2vh; /* 로고 크기 설정 */
+            cursor: pointer;
+        }
+
+        /* 햄버거 버튼 스타일 */
+        #hamburger-btn {
+            font-size: 1.5em;
+            background: none;
+            border: none;
+            cursor: pointer;
+            margin-left: auto; /* 로고와 버튼 사이에 여백 확보 */
+        }
+        .line {
+            margin: 20px auto;
+            display: block;
+            max-width: 100px; /* 선의 너비 조정 */
+        }
+
+
+        /* 모달 메뉴 */
+        #modal-menu {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(255, 255, 255, 0.9); /* 80% 투명도 */
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            z-index: 2000;
+            font-family: "Pretendard", sans-serif;
+        }
+
+        /* 모달 헤더 */
+        #modal-header {
+            width: 93%; /* 너비를 90%로 유지 */
+            display: flex;
+            justify-content: space-between; /* 닫기 버튼과 로고를 양 끝으로 배치 */
+            align-items: center; /* 수직 가운데 정렬 */
+            position: absolute;
+            margin-top: 10px;
+            top: 0;
+            left: 50%; /* 화면의 정중앙 기준 */
+            transform: translateX(-50%); /* 중앙 정렬 */
+            height: 60px;
+            z-index: 2100;
+        }
+
+        /* 로고 */
+        #logo {
+            height: 20px;
+            padding-left: 3vw;
+        }
+
+        /* 닫기 버튼 */
+        #close-btn {
+            position: absolute; /* 위치 고정 */
+            top: 2vh; /* 화면 높이에 비례한 상단 여백 */
+            right: 2vw; /* 화면 너비에 비례한 오른쪽 여백 */
+            font-size: 1.5em; /* 닫기 버튼 크기 */
+            background: none; /* 배경 제거 */
+            border: none; /* 테두리 제거 */
+            cursor: pointer; /* 클릭 가능한 모양 */
+            color: #333; /* 닫기 버튼 색상 */
+            z-index: 2200; /* 닫기 버튼이 항상 위에 보이도록 설정 */
+        }
+
+
+        /* 모달 숨김 */
+        #modal-menu.hidden {
+            display: none;
+        }
+
+        /* 모달 리스트 */
+        #modal-menu ul {
+            list-style: none;
+            text-align: center;
+            padding: 0;
+        }
+
+        #modal-menu ul li {
+            margin: 15px 0;
+            font-size: 1.2em;
+        }
+
+        #modal-menu ul li a {
+            text-decoration: none;
+            color: #333;
+            font-size: 1.5em;
+        }
+        /* 현재 페이지 링크 스타일 */
+        #modal-menu ul li a.active {
+            color: #007BFF; /* 파란색 */
+            font-weight: bold; /* 굵은 글씨 */
+        }
+
+        /* 스타일 시작 */
+        .shop-container {
+            max-width: 800px;
+            margin: auto;
+            padding: 20px;
+            margin-top: 50px;
+        }
+
+        header {
+            text-align: center;
+        }
+
+        h1 {
+            margin-top: 20px;
+        }
+
+
+        #recommended-product {
+            position: relative;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            width: 100%;
+            height: 200px;
+            overflow: hidden;
+        }
+
+        #recommended-product div {
+            position: absolute;
+            opacity: 0;
+            transition: opacity 0.8s ease, transform 0.8s ease;
+
+        }
+
+        #recommended-product div.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+
+
+        /* 필터 섹션 스타일 */
+        .filter-section {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            font-size: 1rem;
+            font-weight: bold;
+            color: #333;
+            padding: 0 10px;
+        }
+
+        .filter-section span {
+            font-size: 1rem;
+        }
+
+        .filters {
+            display: flex;
+            gap: 10px;
+        }
+
+        .filters select {
+            width: auto; /* 가로 크기 자동 조정 */
+            max-width: 150px; /* 최대 크기 제한 */
+            padding: 10px 0px;
+            border: none;
+            border-radius: 30px; /* 둥근 모서리 */
+            font-size: 1rem;
+            background-color: #007BFF; /* 파란색 배경 */
+            color: #fff; /* 흰색 텍스트 */
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-align: center;
+            appearance: none; /* 기본 브라우저 스타일 복원 */
+        }
+
+        /* 반응형 처리 */
+        @media (max-width: 768px) {
+            .filters select {
+                max-width: 100px; /* 작은 화면에서는 크기 더 줄이기 */
+                padding: 8px 12px; /* 패딩 줄이기 */
+                font-size: 0.9rem;
+            }
+        }
+
+        .filters select:hover {
+            background-color: #0056b3; /* 호버 시 어두운 파란색 */
+        }
+
+        /* 드롭다운 화살표 커스터마이징 */
+        .filters select::-ms-expand {
+            display: none; /* IE에서 기본 화살표 숨김 */
+        }
+
+
+
+
+        /* 제품 목록 스타일 */
+        .product-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin-top: 10px;
+        }
+
+        /* 제품 카드 스타일 */
+        .product-card {
+            background-color: #fff;
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+            text-align: center;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+            cursor: pointer;
+        }
+
+        .product-card img {
+            max-width: 100%;
+            height: 100px;
+            object-fit: contain;
+            margin-bottom: 10px;
+        }
+
+        .product-card h3 {
+            font-size: 1.2rem;
+            margin: 10px 0;
+            color: #333;
+        }
+
+        .product-card p {
+            font-size: 0.9rem;
+            color: #666;
+            margin-bottom: 15px;
+        }
+
+        .product-card button {
+            padding: 10px 20px;
+            background-color: #007BFF;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            font-size: 0.9rem;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        .product-card button:hover {
+            background-color: #0056b3;
+        }
+
+        /* 페이지네이션 스타일 */
+        .pagination {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-top: 20px;
+        }
+
+        .pagination button {
+            padding: 8px 12px;
+            margin: 0 5px;
+            font-size: 0.9rem;
+            color: #007BFF;
+            background-color: transparent;
+            border: 1px solid #007BFF;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .pagination button:hover {
+            background-color: #007BFF;
+            color: #fff;
+        }
+
+        .pagination .active {
+            background-color: #007BFF;
+            color: #fff;
+        }
+
+
+    </style>
+</head>
+<body>
+<!-- 공통 헤더 리스트 -->
+<div id="header">
+    <img id="header_logo" src="/img/UTU.png" alt="Logo">
+    <button id="hamburger-btn">☰</button>
+</div>
+
+<div id="modal-menu" class="hidden">
+    <div id="modal-header">
+        <img id="logo" src="/img/UTU.png" alt="Logo">
+        <button id="close-btn">X</button>
+    </div>
+    <ul>
+        <li><a href="/home">Home</a></li>
+        <li><a href="/game">Game</a></li>
+        <li><a href="/shop">Shop</a></li>
+        <li><a href="/community">Community</a></li>
+        <li><a href="/about">About Us</a></li>
+    </ul>
+</div>
+
+<!-- 페이지 콘텐츠 -->
+<main id="content">
+    <div class="shop-container">
+        <header>
+            <img src="/img/line_hz.png" alt="Line" class="line">
+            <h2>이런 제품은 어때요?</h2>
+            <div id="recommended-product" class="recommended-product"></div>
+        </header>
+
+        <section class="filter-section">
+            <span>전체 <strong id="total-count">3</strong> 개</span>
+            <div class="filters">
+                <select id="material-filter">
+                    <option value="All">재료별  ∨</option>
+                    <option value="플라스틱">플라스틱</option>
+                    <option value="유리">유리</option>
+                    <option value="금속">금속</option>
+                    <option value="섬유/패브릭">섬유/패브릭</option>
+                    <option value="종이">종이</option>
+                    <option value="목재">목재</option>
+                    <option value="가죽 / 합성피혁">가죽 / 합성피혁</option>
+                    <option value="기타">기타</option>
+                </select>
+                <select id="product-filter">
+                    <option value="All">제품별  ∨</option>
+                    <option value="의류 및 패션">의류 및 패션</option>
+                    <option value="가구 및 인테리어">가구 및 인테리어</option>
+                    <option value="생활용품">생활용품</option>
+                    <option value="예술품 및 장식품">예술품 및 장식품</option>
+                    <option value="DIY 키트">DIY 키트</option>
+                    <option value="미용">미용</option>
+                    <option value="기타">기타</option>
+                </select>
+            </div>
+        </section>
+
+        <section class="product-list" id="product-list">
+            <!-- Products will be dynamically rendered here -->
+        </section>
+    </div>
+</main>
+
+<script>
+    // 햄버거 버튼과 모달 제어
+    const hamburgerBtn = document.getElementById('hamburger-btn');
+    const modalMenu = document.getElementById('modal-menu');
+    const closeBtn = document.getElementById('close-btn');
+
+    // 햄버거 버튼 클릭 시 모달 열기
+    hamburgerBtn.addEventListener('click', () => {
+        modalMenu.classList.remove('hidden');
+    });
+
+    // 닫기 버튼 클릭 시 모달 닫기
+    closeBtn.addEventListener('click', () => {
+        modalMenu.classList.add('hidden');
+    });
+
+    // 현재 URL에 따라 활성화된 링크 스타일 적용
+    const links = document.querySelectorAll('#modal-menu ul li a');
+    const currentPath = window.location.pathname; // 현재 URL 경로
+
+    links.forEach(link => {
+        if (link.getAttribute('href') === currentPath) {
+            link.classList.add('active'); // 현재 페이지에 'active' 클래스 추가
+        }
+    });
+    const products = [
+        { id: 1, name: '리시오 칫솔', company: '리시오', image: 'img/reseio.svg', material: '플라스틱', category: '생활용품', link: 'https://www.reseio.com/' },
+        { id: 2, name: '친환경 수세미', company: '환경단체', image: 'img/eco_sponge.svg', material: '섬유/패브릭', category: '생활용품', link: 'https://item.gmarket.co.kr/Item?goodscode=2295142386' },
+        { id: 3, name: '제주파래스크럽', company: '인유어', image: 'img/inur.svg', material: '기타', category: '미용', link: 'https://www.wadiz.kr/web/campaign/detail/312767?utm_source=wadizshare_in&utm_medium=url&walinkid=79568300' }
+    ];
+
+    let currentRecommendedIndex = 0;
+
+    // Initialize products
+    function renderProducts() {
+        const productList = document.getElementById('product-list');
+        productList.innerHTML = '';
+        products.forEach(product => {
+            const productCard = `
+            <div class="product-card" onclick="window.open('${product.link}', '_blank')">
+                <img src="${product.image}" alt="${product.name}" />
+                <h3>${product.name}</h3>
+                <p>${product.company}</p>
+            </div>
+        `;
+            productList.innerHTML += productCard;
+        });
+    }
+
+    // Filter products
+    function filterProducts() {
+        const materialFilter = document.getElementById('material-filter').value;
+        const productFilter = document.getElementById('product-filter').value;
+
+        const filteredProducts = products.filter(product => {
+            return (materialFilter === 'All' || product.material === materialFilter) &&
+                (productFilter === 'All' || product.category === productFilter);
+        });
+
+        const productList = document.getElementById('product-list');
+        productList.innerHTML = '';
+        filteredProducts.forEach(product => {
+            const productCard = `
+            <div class="product-card" onclick="window.open('${product.link}', '_blank')">
+                <img src="${product.image}" alt="${product.name}" />
+                <h3>${product.name}</h3>
+                <p>${product.company}</p>
+            </div>
+        `;
+            productList.innerHTML += productCard;
+        });
+    }
+
+    function updateRecommendedProduct() {
+        const recommendedProduct = document.getElementById('recommended-product');
+
+        // 이전 요소를 제거
+        const currentElement = recommendedProduct.querySelector('.visible');
+        if (currentElement) {
+            currentElement.classList.remove('visible');
+        }
+
+        // 새 요소를 추가
+        const product = products[currentRecommendedIndex];
+        const newProductElement = document.createElement('div');
+        newProductElement.innerHTML = `
+        <img src="${product.image}" alt="${product.name}" />
+        <h3>${product.name}</h3>
+        <p>${product.company}</p>
+    `;
+        newProductElement.onclick = () => window.open(product.link, '_blank');
+        newProductElement.classList.add('visible');
+
+        recommendedProduct.appendChild(newProductElement);
+
+        // 이전 요소를 제거
+        setTimeout(() => {
+            if (currentElement) {
+                recommendedProduct.removeChild(currentElement);
+            }
+        }, 800); // 애니메이션 지속 시간과 동일하게 설정
+
+        // 다음 제품으로 인덱스 이동
+        currentRecommendedIndex = (currentRecommendedIndex + 1) % products.length;
+    }
+
+
+
+    // Event listeners
+    document.getElementById('material-filter').addEventListener('change', filterProducts);
+    document.getElementById('product-filter').addEventListener('change', filterProducts);
+
+    // Initialize
+    renderProducts();
+    updateRecommendedProduct();
+    setInterval(updateRecommendedProduct, 3000); // Rotate recommended products every 3 seconds
+
+
+
+</script>
+</body>
+</html>

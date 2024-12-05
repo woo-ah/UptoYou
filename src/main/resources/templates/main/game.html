@@ -1,0 +1,534 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Header with Modal</title>
+    <style>
+        body {
+            margin: 0; /* 기본 마진 제거 */
+            padding: 0; /* 기본 패딩도 제거 (필요 시) */
+            box-sizing: border-box; /* 박스 크기 계산 방식 설정 */
+        }
+        /* Vertical Line */
+        .vertical-line img {
+            margin: 0 auto;
+            display: block;
+            max-height: 150px;
+            padding: 20px;
+        }
+
+        .line {
+            margin: 20px auto;
+            display: block;
+            max-width: 100px; /* 선의 너비 조정 */
+        }
+
+        /* 공통 헤더 스타일 */
+        #header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%; /* 전체 화면 너비 */
+            height: 8vh; /* 화면 높이에 비례하여 설정 */
+            display: flex;
+            align-items: center;
+            justify-content: space-between; /* 로고와 버튼 양쪽 끝 배치 */
+            padding: 0 5vw; /* 좌우 여백을 줄여서 버튼 밀림 방지 */
+            background-color: rgba(255, 255, 255, 0); /* 투명 배경 */
+            z-index: 1000;
+            font-family: "Pretendard", sans-serif;
+            box-sizing: border-box; /* 여백 포함한 크기 계산 */
+        }
+
+        /* 로고 스타일 */
+        #header_logo {
+            height: 2vh; /* 로고 크기 설정 */
+            cursor: pointer;
+        }
+
+        /* 햄버거 버튼 스타일 */
+        #hamburger-btn {
+            font-size: 1.5em;
+            background: none;
+            border: none;
+            cursor: pointer;
+            margin-left: auto; /* 로고와 버튼 사이에 여백 확보 */
+        }
+
+        /* 모달 메뉴 */
+        #modal-menu {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(255, 255, 255, 0.9); /* 80% 투명도 */
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            z-index: 2000;
+            font-family: "Pretendard", sans-serif;
+        }
+
+        /* 모달 헤더 */
+        #modal-header {
+            width: 93%; /* 너비를 90%로 유지 */
+            display: flex;
+            justify-content: space-between; /* 닫기 버튼과 로고를 양 끝으로 배치 */
+            align-items: center; /* 수직 가운데 정렬 */
+            position: absolute;
+            margin-top: 10px;
+            top: 0;
+            left: 50%; /* 화면의 정중앙 기준 */
+            transform: translateX(-50%); /* 중앙 정렬 */
+            height: 60px;
+            z-index: 2100;
+        }
+
+        /* 로고 */
+        #logo {
+            height: 20px;
+            padding-left: 3vw;
+        }
+
+        /* 닫기 버튼 */
+        #close-btn {
+            position: absolute; /* 위치 고정 */
+            top: 2vh; /* 화면 높이에 비례한 상단 여백 */
+            right: 2vw; /* 화면 너비에 비례한 오른쪽 여백 */
+            font-size: 1.5em; /* 닫기 버튼 크기 */
+            background: none; /* 배경 제거 */
+            border: none; /* 테두리 제거 */
+            cursor: pointer; /* 클릭 가능한 모양 */
+            color: #333; /* 닫기 버튼 색상 */
+            z-index: 2200; /* 닫기 버튼이 항상 위에 보이도록 설정 */
+        }
+
+
+        /* 모달 숨김 */
+        #modal-menu.hidden {
+            display: none;
+        }
+
+        /* 모달 리스트 */
+        #modal-menu ul {
+            list-style: none;
+            text-align: center;
+            padding: 0;
+        }
+
+        #modal-menu ul li {
+            margin: 15px 0;
+            font-size: 1.2em;
+        }
+
+        #modal-menu ul li a {
+            text-decoration: none;
+            color: #333;
+            font-size: 1.5em;
+        }
+        /* 현재 페이지 링크 스타일 */
+        #modal-menu ul li a.active {
+            color: #007BFF; /* 파란색 */
+            font-weight: bold; /* 굵은 글씨 */
+        }
+
+
+        /* 공통 스타일 */
+        body {
+            font-family: "Pretendard", sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+
+        /* 게임 섹션 스타일 */
+        .game-section {
+            margin-top: 50px;
+            text-align: center;
+            padding: 20px;
+        }
+
+        .game-header {
+            margin-bottom: 0px;
+        }
+
+        .game-logo {
+            max-width: 60px;
+            margin-bottom: 10px;
+        }
+
+        .game-header h2 {
+            font-size: 24px;
+            font-weight: bold;
+            margin: 10px 0;
+        }
+
+        .game-header p {
+            font-size: 14px;
+            color: #777;
+        }
+
+        .game-content {
+
+        }
+
+        .game-product-image {
+            max-width: 150px;
+            margin: 10px auto;
+            display: block;
+        }
+
+        .game-content h3 {
+            font-size: 18px;
+            font-weight: bold;
+            margin: 10px 0 5px;
+        }
+
+        .game-content p {
+            font-size: 14px;
+            color: #777;
+        }
+
+        .participants {
+            font-size: 14px;
+            color: #007BFF;
+        }
+
+        .participate-btn {
+            background-color: #007BFF;
+            color: #FFF;
+            border: none;
+            padding: 10px 20px;
+            font-size: 16px;
+            border-radius: 50px;
+            cursor: pointer;
+            margin-top: 10px;
+            box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.2);
+            transition: background-color 0.3s ease;
+        }
+
+        .participate-btn:hover {
+            background-color: #0056b3;
+        }
+
+
+
+
+        /* 게임 데이터 섹션 스타일 */
+        .game-data-section {
+            padding: 20px;
+            margin-top: 20px;
+        }
+
+        .game-data-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .game-data-header span {
+            font-size: 16px;
+        }
+
+        .sort-btn {
+            background-color: #007BFF;
+            color: white;
+            border: none;
+            padding: 5px 10px;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .game-data-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+            gap: 20px;
+        }
+
+        .game-item {
+            border: 1px solid #ddd;
+            border-radius: 10px;
+            padding: 10px;
+            text-align: center;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .game-item img {
+            max-width: 100px;
+            margin-bottom: 10px;
+        }
+
+        .game-item h3 {
+            font-size: 16px;
+            margin: 10px 0 5px;
+        }
+
+        .game-item p {
+            font-size: 14px;
+            color: #777;
+        }
+
+        .pagination {
+            display: flex;
+            justify-content: center;
+            margin-top: 20px;
+        }
+
+        .page-btn {
+            background-color: #007BFF;
+            color: white;
+            border: none;
+            padding: 5px 10px;
+            margin: 0 5px;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .page-btn.active {
+            background-color: #0056b3;
+        }
+
+        /* 드롭다운 스타일 */
+        .dropdown {
+            position: relative;
+            display: inline-block;
+        }
+
+
+        .sort-btn {
+            background-color: #007BFF;
+            color: white;
+            border: none;
+            padding: 5px 10px;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .dropdown-menu {
+            position: absolute;
+            top: 100%; /* 버튼 아래에 위치 */
+            left: 0;
+            min-width: 150px;
+            background-color: #fff;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            z-index: 1000;
+            list-style: none;
+            padding: 10px 0;
+            margin: 0;
+            display: none;
+            overflow: hidden;
+            white-space: nowrap;
+        }
+
+        /* 화면을 벗어나지 않도록 오른쪽 끝 조정 */
+        .dropdown-menu.right-align {
+            right: 0;
+            left: auto;
+        }
+
+        /* 화면 크기에 따라 위치 조정 */
+        @media (max-width: 768px) {
+            .dropdown-menu {
+                left: auto;
+                right: 0; /* 작은 화면에서는 오른쪽 정렬 */
+            }
+        }
+
+        .dropdown-menu.hidden {
+            display: none;
+        }
+        .dropdown-menu:not(.hidden) {
+            display: block;
+        }
+
+        .dropdown-menu li {
+            padding: 10px;
+            cursor: pointer;
+            font-size: 14px;
+            color: #333;
+        }
+
+        .dropdown-menu li:hover {
+            background-color: #f0f0f0;
+        }
+
+
+
+    </style>
+</head>
+<body>
+<!-- 공통 헤더 리스트 -->
+<div id="header">
+    <img id="header_logo" src="/img/UTU.png" alt="Logo">
+    <button id="hamburger-btn">☰</button>
+</div>
+
+<div id="modal-menu" class="hidden">
+    <div id="modal-header">
+        <img id="logo" src="/img/UTU.png" alt="Logo">
+        <button id="close-btn">X</button>
+    </div>
+    <ul>
+        <li><a href="/home">Home</a></li>
+        <li><a href="/game">Game</a></li>
+        <li><a href="/shop">Shop</a></li>
+        <li><a href="/community">Community</a></li>
+        <li><a href="/about">About Us</a></li>
+    </ul>
+</div>
+
+<!-- 페이지 콘텐츠 -->
+<main id="content">
+    <section class="game-section">
+        <div class="game-header">
+            <img src="/img/line_hz.png" alt="Line" class="line">
+            <h2>이벤트 팝업 게임</h2>
+            <p>도전을 통해 상품을 획득하세요!</p>
+        </div>
+        <div class="game-content">
+            <img src="/img/toothbrush.png" alt="리시오 칫솔" class="game-product-image">
+            <h3>리시오 칫솔</h3>
+            <p>리시오</p>
+            <p class="participants">235명이 참여하고 있어요</p>
+            <button class="participate-btn" onclick="showModal()" >참가하기</button>
+        </div>
+        <img src="/img/line_hz.png" alt="Line" class="line">
+    </section>
+
+    <section class="game-data-section">
+        <div class="game-data-header">
+            <span>전체 <strong id="total-count">1</strong> 개</span>
+            <div class="dropdown">
+                <button class="sort-btn" id="dropdown-btn">제품별 ∨</button>
+                <ul class="dropdown-menu hidden" id="category-list">
+                    <li data-category="All">All</li>
+                    <li data-category="의류 및 패션">의류 및 패션</li>
+                    <li data-category="가구 및 인테리어">가구 및 인테리어</li>
+                    <li data-category="생활용품">생활용품</li>
+                    <li data-category="예술품 및 장식품">예술품 및 장식품</li>
+                    <li data-category="DIY 키트">DIY 키트</li>
+                    <li data-category="미용">미용</li>
+                    <li data-category="기타">기타</li>
+                </ul>
+            </div>
+        </div>
+        <div class="game-data-list" id="game-data-list">
+            <!-- 데이터가 렌더링될 예정 -->
+        </div>
+        <div class="pagination">
+            <button class="page-btn active">1</button>
+        </div>
+    </section>
+
+
+
+</main>
+
+<script>
+    function showModal(){
+        location.replace("/gspeed/description");
+    }
+
+    // 햄버거 버튼과 모달 제어
+    const hamburgerBtn = document.getElementById('hamburger-btn');
+    const modalMenu = document.getElementById('modal-menu');
+    const closeBtn = document.getElementById('close-btn');
+
+    // 햄버거 버튼 클릭 시 모달 열기
+    hamburgerBtn.addEventListener('click', () => {
+        modalMenu.classList.remove('hidden');
+    });
+
+    // 닫기 버튼 클릭 시 모달 닫기
+    closeBtn.addEventListener('click', () => {
+        modalMenu.classList.add('hidden');
+    });
+
+    // 현재 URL에 따라 활성화된 링크 스타일 적용
+    const links = document.querySelectorAll('#modal-menu ul li a');
+    const currentPath = window.location.pathname; // 현재 URL 경로
+
+    links.forEach(link => {
+        if (link.getAttribute('href') === currentPath) {
+            link.classList.add('active'); // 현재 페이지에 'active' 클래스 추가
+        }
+    });
+
+
+
+    // 데이터 관리
+    const gameData = [
+        {
+            id: 1,
+            name: "리시오 칫솔",
+            description: "리시오",
+            img: "/img/toothbrush.png",
+            category: "생활용품",
+        },
+    ];
+
+    // 요소 선택
+    const totalCount = document.getElementById("total-count");
+    const gameDataList = document.getElementById("game-data-list");
+    const dropdownBtn = document.getElementById("dropdown-btn");
+    const categoryList = document.getElementById("category-list");
+
+    // 드롭다운 토글
+    dropdownBtn.addEventListener("click", () => {
+        console.log("Dropdown toggled!");
+        categoryList.classList.toggle("hidden");
+    });
+
+
+    // 카테고리 필터링
+    categoryList.addEventListener("click", (event) => {
+        const category = event.target.getAttribute("data-category");
+        dropdownBtn.textContent = `${category} ∨`;
+
+        // 카테고리 필터링
+        const filteredData =
+            category === "All"
+                ? gameData
+                : gameData.filter((item) => item.category === category);
+
+        // 데이터 렌더링
+        renderGameData(filteredData);
+
+        // 드롭다운 닫기
+        categoryList.classList.add("hidden");
+    });
+
+    // 데이터 렌더링
+    function renderGameData(data) {
+        // 총 개수 업데이트
+        totalCount.textContent = data.length;
+
+        // 리스트 초기화
+        gameDataList.innerHTML = "";
+
+        // 데이터 추가
+        data.forEach((item) => {
+            const gameItem = document.createElement("div");
+            gameItem.classList.add("game-item");
+
+            gameItem.innerHTML = `
+            <img src="${item.img}" alt="${item.name}">
+            <h3>${item.name}</h3>
+            <p>${item.description}</p>
+        `;
+
+            gameDataList.appendChild(gameItem);
+        });
+    }
+
+    // 초기 렌더링
+    renderGameData(gameData);
+
+</script>
+</body>
+</html>

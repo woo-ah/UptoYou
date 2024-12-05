@@ -17,4 +17,30 @@ public class DefaultController {
     public String rpm(){
         return "user/create";
     }
+
+    @GetMapping("/home")
+    public String home(){
+        return "main/home";
+    } // templates/main/home.html
+
+    @GetMapping("/game")
+    public String game(){
+        return "main/game";
+    } // templates/main/game.html
+
+    @GetMapping("/shop")
+    public String shop(){
+        return "main/shop";
+    } // templates/main/shop.html
+
+    @GetMapping("/community")
+    public String community(){
+        return "main/community";
+    } // templates/main/community.html
+
+    @GetMapping("/about")
+    public String about(){
+        return "main/about";
+    } // templates/main/about.html
+
 }

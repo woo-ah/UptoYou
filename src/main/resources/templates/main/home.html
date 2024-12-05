@@ -1,0 +1,751 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Header with Modal</title>
+    <style>
+        body {
+            margin: 0; /* 기본 마진 제거 */
+            padding: 0; /* 기본 패딩도 제거 (필요 시) */
+            box-sizing: border-box; /* 박스 크기 계산 방식 설정 */
+        }
+        /* 공통 헤더 스타일 */
+        #header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%; /* 전체 화면 너비 */
+            height: 8vh; /* 화면 높이에 비례하여 설정 */
+            display: flex;
+            align-items: center;
+            justify-content: space-between; /* 로고와 버튼 양쪽 끝 배치 */
+            padding: 0 5vw; /* 좌우 여백을 줄여서 버튼 밀림 방지 */
+            background-color: rgba(255, 255, 255, 0); /* 투명 배경 */
+            z-index: 1000;
+            font-family: "Pretendard", sans-serif;
+            box-sizing: border-box; /* 여백 포함한 크기 계산 */
+        }
+
+        /* 로고 스타일 */
+        #header_logo {
+            height: 2vh; /* 로고 크기 설정 */
+            cursor: pointer;
+        }
+
+        /* 햄버거 버튼 스타일 */
+        #hamburger-btn {
+            font-size: 1.5em;
+            background: none;
+            border: none;
+            cursor: pointer;
+            margin-left: auto; /* 로고와 버튼 사이에 여백 확보 */
+        }
+
+
+        /* 모달 메뉴 */
+        #modal-menu {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(255, 255, 255, 0.9); /* 80% 투명도 */
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            z-index: 2000;
+            font-family: "Pretendard", sans-serif;
+        }
+        /* 모달 헤더 */
+        #modal-header {
+            width: 93%; /* 너비를 90%로 유지 */
+            display: flex;
+            justify-content: space-between; /* 닫기 버튼과 로고를 양 끝으로 배치 */
+            align-items: center; /* 수직 가운데 정렬 */
+            position: absolute;
+            margin-top: 10px;
+            top: 0;
+            left: 50%; /* 화면의 정중앙 기준 */
+            transform: translateX(-50%); /* 중앙 정렬 */
+            height: 60px;
+            z-index: 2100;
+        }
+        /* 로고 */
+        #logo {
+            height: 20px;
+            padding-left: 3vw;
+        }
+        /* 닫기 버튼 */
+        #close-btn {
+            position: absolute; /* 위치 고정 */
+            top: 2vh; /* 화면 높이에 비례한 상단 여백 */
+            right: 2vw; /* 화면 너비에 비례한 오른쪽 여백 */
+            font-size: 1.5em; /* 닫기 버튼 크기 */
+            background: none; /* 배경 제거 */
+            border: none; /* 테두리 제거 */
+            cursor: pointer; /* 클릭 가능한 모양 */
+            color: #333; /* 닫기 버튼 색상 */
+            z-index: 2200; /* 닫기 버튼이 항상 위에 보이도록 설정 */
+        }
+        /* 모달 숨김 */
+        #modal-menu.hidden {
+            display: none;
+        }
+        /* 모달 리스트 */
+        #modal-menu ul {
+            list-style: none;
+            text-align: center;
+            padding: 0;
+        }
+        #modal-menu ul li {
+            margin: 15px 0;
+            font-size: 1.2em;
+        }
+        #modal-menu ul li a {
+            text-decoration: none;
+            color: #333;
+            font-size: 1.5em;
+        }
+        /* 현재 페이지 링크 스타일 */
+        #modal-menu ul li a.active {
+            color: #007BFF; /* 파란색 */
+            font-weight: bold; /* 굵은 글씨 */
+        }
+
+        /* ---------------------------- */
+
+        /* 공통 섹션 스타일 */
+        .section {
+            text-align: center;
+            padding-top: 50px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            opacity: 0; /* 처음에는 보이지 않도록 */
+            transform: translateY(50px); /* 아래에서 시작 */
+            transition: opacity 1s ease, transform 1s ease;
+        }
+
+        /* Vertical Line */
+        .vertical-line img {
+            margin: 0 auto;
+            display: block;
+            max-height: 150px;
+            padding: 20px;
+        }
+
+        /* 섹션이 화면에 보일 때 */
+        .section.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Section 1-1 스타일 */
+        .section1-1 {
+            margin-bottom: 50px;
+        }
+
+        .section1-1 .line {
+            margin: 20px auto;
+            display: block;
+            max-width: 100px; /* 선의 너비 조정 */
+        }
+
+        .section1-1 h2 {
+            font-family: "Pretendard", sans-serif;
+            font-size: 24px;
+            line-height: 1.5;
+            margin: 20px 0;
+            font-weight: normal;
+        }
+
+        .section1-1 h2 strong {
+            font-weight: bold;
+        }
+
+        /* Section 1-2 스타일 */
+        .section1-2 {
+            background-color: #E8F4FF; /* 연한 파란색 배경 */
+            width: 100%; /* 화면 전체 가로를 채움 */
+            padding: 50px 0; /* 위아래 간격 추가 */
+            text-align: center; /* 텍스트 중앙 정렬 */
+            display: flex; /* 중앙 정렬을 위한 flexbox */
+            flex-direction: column; /* 아이템을 위아래로 정렬 */
+            align-items: center; /* 아이템을 수평으로 가운데 정렬 */
+        }
+
+        .section1-2 .logo-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .section1-2 .logo {
+            max-width: 150px;
+            height: auto; /* 비율 유지 */
+        }
+
+        .section1-2 .message {
+            font-family: "Pretendard", sans-serif;
+            font-size: 18px;
+            color: #007BFF; /* 파란색 */
+            background-color: #FFFFFF;
+            padding: 10px 20px;
+            border-radius: 20px;
+            display: inline-block;
+            position: relative;
+        }
+
+        /* 말풍선 아래 화살표 -> 위쪽 화살표 */
+        .section1-2 .message::after {
+            content: "";
+            position: absolute;
+            top: -10px; /* 위쪽으로 이동 */
+            left: 50%;
+            transform: translateX(-50%);
+            width: 0;
+            height: 0;
+            border-left: 10px solid transparent;
+            border-right: 10px solid transparent;
+            border-bottom: 10px solid #FFFFFF; /* 아래쪽 화살표를 위쪽으로 변경 */
+        }
+
+
+        /* Section 2 전체 스타일 */
+        .section2 {
+            text-align: center;
+            padding: 20px;
+        }
+
+        /* 섹션 제목 및 설명 */
+        .section2-content .title {
+            margin-top: 20px;
+            text-align: center;
+        }
+
+        .title .title-line {
+            margin: 0 auto;
+            display: block;
+            width: 100px; /* 선의 길이 */
+            height: auto;
+        }
+
+        .title h2 {
+            font-family: "Pretendard", sans-serif;
+            font-size: 24px;
+            font-weight: bold;
+            margin: 10px 0;
+        }
+
+        .title p {
+            font-family: "Pretendard", sans-serif;
+            font-size: 16px;
+            color: #555;
+            margin: 5px 0;
+        }
+
+        /* 상품 이미지 및 설명 */
+        .section2-content .product {
+            margin-top: 30px;
+        }
+
+        .product-img {
+            width: 150px;
+            height: auto;
+            margin: 0 auto 10px;
+        }
+
+        .product-description p {
+            margin: 0;
+        }
+
+        .product-description p:first-child {
+            font-size: 16px;
+            font-weight: bold;
+        }
+
+        .product-description .brand {
+            font-size: 14px;
+            color: #999;
+        }
+
+        /* 참가 관련 영역 */
+        .participation {
+            margin-top: 20px;
+        }
+
+        .participants {
+            font-size: 14px;
+            color: #007BFF;
+            margin-bottom: 10px;
+        }
+
+        .join-btn {
+            font-size: 16px;
+            font-weight: bold;
+            color: #FFFFFF;
+            background-color: #007BFF;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 20px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .join-btn:hover {
+            background-color: #0056b3;
+        }
+
+
+        /* Section 3 전체 스타일 */
+        .section3 {
+            text-align: center;
+            padding: 20px;
+        }
+
+        /* Vertical Line */
+        .vertical-line img {
+            margin: 0 auto;
+            display: block;
+            max-height: 100px;
+        }
+
+        /* 섹션 제목 및 설명 */
+        .section3-content {
+            width: 90%; /* 원하는 너비 비율 (화면 크기에 맞춰 조정) */
+            max-width: 1200px; /* 최대 너비 설정 */
+            margin: 0 auto; /* 가운데 정렬 */
+        }
+
+        .title .title-line {
+            margin: 0 auto;
+            display: block;
+            width: 100px; /* 선의 길이 */
+            height: auto;
+        }
+
+        .title h2 {
+            font-family: "Pretendard", sans-serif;
+            font-size: 24px;
+            font-weight: bold;
+            margin: 10px 0;
+        }
+
+        .title p {
+            font-family: "Pretendard", sans-serif;
+            font-size: 16px;
+            color: #555;
+            margin: 5px 0;
+        }
+
+        /* 게임 아이콘 섹션 */
+        .game-icons {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-top: 30px;
+        }
+
+        .game-icon {
+            text-align: center;
+            position: relative; /* 배경색 위치 조정을 위해 필요 */
+        }
+
+        .game-icon::before {
+            content: ""; /* 가상 요소로 배경 생성 */
+            position: absolute;
+            top: 50%; /* 아이콘의 중간 정도에 위치 */
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 100%; /* 원하는 배경 크기 */
+            height: 100%;
+            background-color: #E8F4FF; /* 연한 파란색 */
+            border-radius: 50%; /* 원형 배경 */
+            z-index: -1; /* 배경이 아이콘 뒤로 가도록 설정 */
+        }
+
+        .game-icon img {
+            width: 25vw;
+            height: auto;
+            margin-bottom: 5px;
+        }
+
+        .game-icon p {
+            font-family: "Pretendard", sans-serif;
+            font-size: 14px;
+            color: #333;
+            margin: 0;
+        }
+
+        /* 플레이 버튼 */
+        .play-button {
+            margin-top: 20px;
+        }
+
+        .play-btn {
+            font-size: 16px;
+            font-weight: bold;
+            color: #FFFFFF;
+            background-color: #007BFF;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 20px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .play-btn:hover {
+            background-color: #0056b3;
+        }
+
+
+        /* Section 4 Styles */
+        .section4 {
+            text-align: center;
+            padding: 20px;
+        }
+
+        .section4-title {
+            margin-bottom: 30px;
+        }
+
+        .section4-title .horizontal-line {
+            display: block;
+            margin: 0 auto 10px;
+            max-width: 100px;
+        }
+
+        .section4-title h2 {
+            font-family: "Pretendard", sans-serif;
+            font-size: 24px;
+            font-weight: bold;
+            margin: 10px 0;
+        }
+
+        .section4-title p {
+            font-family: "Pretendard", sans-serif;
+            font-size: 16px;
+            color: #666;
+            margin: 0;
+        }
+
+        .comments {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            align-items: center;
+            margin-bottom: 30px;
+        }
+
+        .comment img {
+            width: 100%; /* Adjust the size based on your design */
+            max-width: 500px;
+        }
+
+        /* View More Button */
+        .view-more {
+            font-family: "Pretendard", sans-serif;
+            font-size: 16px;
+            color: #fff;
+            background-color: #007BFF;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 20px;
+            cursor: pointer;
+            box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
+            transition: background-color 0.3s ease;
+        }
+
+        .view-more:hover {
+            background-color: #0056b3;
+        }
+
+
+        /* Section 5 스타일 */
+        .section5 {
+            text-align: center;
+            padding: 50px 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            background-color: #E8F4FF; /* 연한 파란색 배경 */
+        }
+
+        /* Section 5 Content */
+        .section5-content .title {
+            margin-bottom: 30px;
+        }
+
+        .section5-content .title h2 {
+            font-family: "Pretendard", sans-serif;
+            font-size: 24px;
+            font-weight: bold;
+            margin: 10px 0;
+        }
+
+        .section5-content .title p {
+            font-family: "Pretendard", sans-serif;
+            font-size: 16px;
+            color: #666;
+            margin: 0;
+        }
+
+        /* Start Button */
+        .section5-content .start-button button {
+            font-family: "Pretendard", sans-serif;
+            font-size: 16px;
+            background-color: #007BFF; /* 파란색 버튼 */
+            color: #FFFFFF;
+            border: none;
+            border-radius: 20px;
+            padding: 10px 20px;
+            cursor: pointer;
+            box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+            transition: background-color 0.3s ease, transform 0.2s ease;
+        }
+
+        .section5-content .start-button button:hover {
+            background-color: #0056b3; /* 버튼 호버 색상 */
+            transform: scale(1.05); /* 살짝 확대 */
+        }
+
+
+
+
+
+    </style>
+</head>
+<body>
+<!-- 공통 헤더 리스트 -->
+<div id="header">
+    <img id="header_logo" src="/img/UTU.png" alt="Logo">
+    <button id="hamburger-btn">☰</button>
+</div>
+
+<div id="modal-menu" class="hidden">
+    <div id="modal-header">
+        <img id="logo" src="/img/UTU.png" alt="Logo">
+        <button id="close-btn">X</button>
+    </div>
+    <ul>
+        <li><a href="/home">Home</a></li>
+        <li><a href="/game">Game</a></li>
+        <li><a href="/shop">Shop</a></li>
+        <li><a href="/community">Community</a></li>
+        <li><a href="/about">About Us</a></li>
+    </ul>
+</div>
+
+<!-- 페이지 콘텐츠 -->
+<main id="content">
+    <!-- section1 -->
+    <section class="section section1">
+        <!-- Section 1-1 -->
+        <div class="section1-1">
+            <img src="/img/line_hz.png" alt="Line" class="line">
+            <h2>
+                게임으로 실천하는<br>
+                <strong>친환경 프로젝트 업투유</strong>
+            </h2>
+        </div>
+
+        <!-- Section 1-2 -->
+        <div class="section1-2">
+            <div class="logo-container">
+                <img src="/img/logo.png" alt="Otter Logo" class="logo">
+            </div>
+            <div class="message">
+                저와 함께 친환경 게임을 즐겨봐요!
+            </div>
+        </div>
+    </section>
+
+    <!-- Section 2 -->
+    <section class="section section2">
+        <!-- Vertical Line -->
+        <div class="vertical-line">
+            <img src="/img/line_vt.png" alt="Vertical Line">
+        </div>
+        <!-- Section 2 Content -->
+        <div class="section2-content">
+            <div class="title">
+                <img src="/img/line_hz.png" alt="Line" class="line">
+                <h2>이벤트 팝업 게임</h2>
+                <p>도전을 통해 상품을 획득하세요!</p>
+            </div>
+            <div class="product">
+                <img src="/img/toothbrush.png" alt="Toothbrush" class="product-img">
+                <div class="product-description">
+                    <p>리시오칫솔</p>
+                    <p class="brand">리시오</p>
+                </div>
+            </div>
+            <div class="participation">
+                <p class="participants">235명이 참여하고 있어요</p>
+                <button class="join-btn" onclick="showModal()">참가하기</button>
+            </div>
+        </div>
+    </section>
+
+
+    <!-- Section 3 -->
+    <section class="section section3">
+        <!-- Vertical Line -->
+        <div class="vertical-line">
+            <img src="/img/line_vt.png" alt="Vertical Line">
+        </div>
+        <!-- Section 3 Content -->
+        <div class="section3-content">
+            <div class="title">
+                <img src="/img/line_hz.png" alt="Line" class="line">
+                <h2>BEST 가장 인기있는 게임</h2>
+                <p>인기있는 게임을 즐겨봐요!</p>
+            </div>
+            <div class="game-icons">
+                <div class="game-icon">
+                    <img src="/img/game_icon1.svg" alt="Game Icon 1">
+                    <p>숫자를 맞춰라!</p>
+                </div>
+                <div class="game-icon">
+                    <img src="/img/game_icon2.svg" alt="Game Icon 2">
+                    <p>빠르게 캐치하라!</p>
+                </div>
+                <div class="game-icon">
+                    <img src="/img/game_icon3.svg" alt="Game Icon 3">
+                    <p>정답을 맞춰라!</p>
+                </div>
+            </div>
+            <div class="play-button">
+                <button class="play-btn" onclick="showModal()">플레이</button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Section 4 -->
+    <section class="section section4">
+        <!-- Vertical Line -->
+        <div class="vertical-line">
+            <img src="/img/line_vt.png" alt="Vertical Line">
+        </div>
+        <!-- Section 4 Title -->
+        <div class="section4-title">
+            <img src="/img/line_hz.png" alt="Line" class="line">
+            <h2>제품 후기</h2>
+            <p>생생한 친환경 제품들의 후기를 확인하세요!</p>
+        </div>
+
+        <!-- Comments -->
+        <div class="comments">
+            <div class="comment">
+                <img src="/img/comment1.svg" alt="Comment 1">
+            </div>
+            <div class="comment">
+                <img src="/img/comment2.svg" alt="Comment 2">
+            </div>
+        </div>
+
+        <!-- View More Button -->
+        <button class="view-more">더보기</button>
+    </section>
+
+
+    <!-- Vertical Line -->
+    <div class="vertical-line">
+        <img src="/img/line_vt.png" alt="Vertical Line">
+    </div>
+
+    <!-- Section 5 -->
+    <section class="section section5">
+        <!-- Section Content -->
+        <div class="section5-content">
+            <div class="title">
+                <img src="/img/line_hz.png" alt="Line" class="line">
+                <h2>서비스 시작하기</h2>
+                <p>게임을 통한 친환경 소비, 준비 되셨나요?</p>
+            </div>
+            <div class="start-button">
+                <button onclick="location.href='/login'">로그인</button>
+            </div>
+        </div>
+    </section>
+
+
+</main>
+
+<script>
+    function showModal(){
+        location.replace("/gspeed/description");
+    }
+    // 햄버거 버튼과 모달 제어
+    const hamburgerBtn = document.getElementById('hamburger-btn');
+    const modalMenu = document.getElementById('modal-menu');
+    const closeBtn = document.getElementById('close-btn');
+
+    // 햄버거 버튼 클릭 시 모달 열기
+    hamburgerBtn.addEventListener('click', () => {
+        modalMenu.classList.remove('hidden');
+    });
+
+    // 닫기 버튼 클릭 시 모달 닫기
+    closeBtn.addEventListener('click', () => {
+        modalMenu.classList.add('hidden');
+    });
+
+    // 현재 URL에 따라 활성화된 링크 스타일 적용
+    const links = document.querySelectorAll('#modal-menu ul li a');
+    const currentPath = window.location.pathname; // 현재 URL 경로
+
+    links.forEach(link => {
+        if (link.getAttribute('href') === currentPath) {
+            link.classList.add('active'); // 현재 페이지에 'active' 클래스 추가
+        }
+    });
+
+
+    <!-- section1 -->
+    // 스크롤 애니메이션 효과
+    document.addEventListener('DOMContentLoaded', () => {
+        const sections = document.querySelectorAll('.section');
+
+        const revealSection = () => {
+            sections.forEach(section => {
+                const sectionTop = section.getBoundingClientRect().top;
+                const triggerPoint = window.innerHeight * 0.8;
+
+                if (sectionTop < triggerPoint) {
+                    section.classList.add('visible');
+                }
+            });
+        };
+
+        // 스크롤 시 애니메이션 트리거
+        window.addEventListener('scroll', revealSection);
+
+        // 초기 로드 시 호출
+        revealSection();
+    });
+
+
+    // Scroll Animation
+    const sections = document.querySelectorAll('.section');
+    window.addEventListener('scroll', () => {
+        sections.forEach(section => {
+            const rect = section.getBoundingClientRect();
+            if (rect.top < window.innerHeight * 0.8) {
+                section.classList.add('visible');
+            }
+        });
+    });
+
+
+
+
+
+</script>
+</body>
+</html>

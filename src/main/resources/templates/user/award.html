@@ -43,10 +43,131 @@
             border-radius: 15px;
             box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
         }
+
+        /* 상단 헤더 */
+        #header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 90%;
+            height: 8vh; /* 화면 높이에 비례하여 설정 */
+            display: flex;
+            align-items: center;
+            justify-content: flex-end; /* 오른쪽 정렬 */
+            padding: 0 5vw; /* 화면 너비에 비례하여 여백 설정 */
+            background-color: rgba(255, 255, 255, 0); /* 투명 배경 */
+            z-index: 1000;
+            font-family: "Pretendard", sans-serif;
+        }
+
+
+        /* 햄버거 버튼 */
+        #hamburger-btn {
+            font-size: 1.5em;
+            background: none;
+            border: none;
+            cursor: pointer;
+        }
+
+        /* 모달 메뉴 */
+        #modal-menu {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(255, 255, 255, 0.9); /* 80% 투명도 */
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            z-index: 2000;
+            font-family: "Pretendard", sans-serif;
+        }
+
+        /* 모달 헤더 */
+        #modal-header {
+            width: 93%; /* 너비를 90%로 유지 */
+            display: flex;
+            justify-content: space-between; /* 닫기 버튼과 로고를 양 끝으로 배치 */
+            align-items: center; /* 수직 가운데 정렬 */
+            position: absolute;
+            margin-top: 10px;
+            top: 0;
+            left: 50%; /* 화면의 정중앙 기준 */
+            transform: translateX(-50%); /* 중앙 정렬 */
+            height: 60px;
+            z-index: 2100;
+        }
+
+        /* 로고 */
+        #logo {
+            height: 20px;
+            padding-left: 3vw;
+        }
+
+        /* 닫기 버튼 */
+        #close-btn {
+            position: absolute; /* 위치 고정 */
+            top: 2vh; /* 화면 높이에 비례한 상단 여백 */
+            right: 2vw; /* 화면 너비에 비례한 오른쪽 여백 */
+            font-size: 1.5em; /* 닫기 버튼 크기 */
+            background: none; /* 배경 제거 */
+            border: none; /* 테두리 제거 */
+            cursor: pointer; /* 클릭 가능한 모양 */
+            color: #333; /* 닫기 버튼 색상 */
+            z-index: 2200; /* 닫기 버튼이 항상 위에 보이도록 설정 */
+        }
+
+
+        /* 모달 숨김 */
+        #modal-menu.hidden {
+            display: none;
+        }
+
+        /* 모달 리스트 */
+        #modal-menu ul {
+            list-style: none;
+            text-align: center;
+            padding: 0;
+        }
+
+        #modal-menu ul li {
+            margin: 15px 0;
+            font-size: 1.2em;
+        }
+
+        #modal-menu ul li a {
+            text-decoration: none;
+            color: #333;
+            font-size: 1.5em;
+        }
+
+
     </style>
 
 </head>
 <body class="des">
+<!-- 햄버거 버튼과 모달 구조 -->
+<div id="header">
+    <button id="hamburger-btn">☰</button>
+</div>
+
+<div id="modal-menu" class="hidden">
+    <div id="modal-header">
+        <img id="logo" src="/img/UTU.png" alt="Logo">
+        <button id="close-btn">X</button>
+    </div>
+    <ul>
+        <li><a href="/home">Home</a></li>
+        <li><a href="/game">Game</a></li>
+        <li><a href="/shop">Shop</a></li>
+        <li><a href="/community">Community</a></li>
+        <li><a href="/about">About Us</a></li>
+    </ul>
+</div>
+
+
 <div id="des-base">
     <div id="des-stage-info">
         <p class="des-stage">현재 순위</p>
@@ -189,6 +310,26 @@
         });
     }
 
+    // 햄버거 버튼과 모달 제어
+    const hamburgerBtn = document.getElementById('hamburger-btn');
+    const modalMenu = document.getElementById('modal-menu');
+    const closeBtn = document.getElementById('close-btn');
+
+    // 햄버거 버튼 클릭 시 모달 열기
+    hamburgerBtn.addEventListener('click', () => {
+        modalMenu.classList.remove('hidden');
+    });
+
+    // 닫기 버튼 클릭 시 모달 닫기
+    closeBtn.addEventListener('click', () => {
+        modalMenu.classList.add('hidden');
+    });
+
+
 </script>
+
+
+
+
 </body>
 </html>
