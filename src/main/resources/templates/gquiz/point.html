@@ -6,6 +6,100 @@
     <title>퀴즈 게임</title>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <link rel="stylesheet" href="/css/styles.css">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #E1E9F5;
+        }
+
+        #gquiz-top-bar {
+            background-color: #E1E9F5;
+            padding: 10px 0px;
+            text-align: center;
+            font-size: 1.2rem;
+        }
+
+        #quiz-container {
+            margin: 20px auto;
+            padding: 20px;
+            width: 90%;
+            max-width: 400px;
+            background-color: #E1E9F5;
+            border-radius: 8px;
+            text-align: center;
+        }
+
+        .quiz-category {
+            font-size: 1rem;
+            font-weight: bold;
+            color: #4a90e2;
+            margin-bottom: 10px;
+        }
+
+        #question-title {
+            font-size: 1.2rem;
+            margin-bottom: 20px;
+        }
+
+        #options-container .option {
+            font-family: 'Pretendard', Arial, sans-serif; /* 글꼴 변경 */
+            background-color: #FFFFFF;
+            width: 100px; /* 정사각형의 너비 */
+            height: 100px; /* 정사각형의 높이 */
+            text-align: center;
+            display: flex; /* 텍스트 정렬을 위한 flexbox */
+            justify-content: center;
+            align-items: center;
+            border-radius: 15px; /* 둥근 모서리 */
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* 그림자 효과 */
+            font-size: 1rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: 1px solid #000000; /* 테두리 색상 */
+            padding: 10px; /* 텍스트 주변 여백 추가 */
+            overflow-wrap: break-word; /* 텍스트 줄바꿈 설정 */
+            word-wrap: break-word; /* 호환성을 위한 추가 설정 */
+            text-align: center; /* 텍스트 가운데 정렬 */
+            line-height: 1.2; /* 줄 간격 조정 */
+            overflow: hidden; /* 텍스트 넘침 방지 */
+        }
+
+        #options-container {
+            display: grid;
+            justify-content: center; /* 부모 컨테이너에서 중앙 정렬 */
+            align-items: center;
+            grid-template-columns: repeat(2, 130px); /* 2열 레이아웃 */
+            gap: 10px; /* 선택지 간격 */
+            max-width: 400px;
+        }
+
+        /*#options-container .option:hover {*/
+        /*    background-color: #DFF0FF; !* 선택지에 호버 시 배경색 *!*/
+        /*    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3); !* 호버 시 그림자 증가 *!*/
+        /*    border-color: #4a90e2; !* 테두리 색상 강조 *!*/
+        /*}*/
+
+        #result-message {
+            margin-top: 20px;
+            padding: 10px;
+            border-radius: 5px;
+            font-weight: bold;
+        }
+
+        .result-correct {
+            color: #2d7f5e;
+            background-color: #e0f7eb;
+        }
+
+        .result-wrong {
+            color: #b00020;
+            background-color: #fdecea;
+        }
+    </style>
+
 </head>
 <body>
 
@@ -343,94 +437,6 @@
 
 </script>
 
-<style>
-    body {
-        font-family: Arial, sans-serif;
-        margin: 0;
-        padding: 0;
-        background-color: #E1E9F5;
-    }
-
-    #gquiz-top-bar {
-        background-color: #E1E9F5;
-        padding: 10px 0px;
-        text-align: center;
-        font-size: 1.2rem;
-    }
-
-    #quiz-container {
-        margin: 20px auto;
-        padding: 20px;
-        width: 90%;
-        max-width: 400px;
-        background-color: #E1E9F5;
-        border-radius: 8px;
-        text-align: center;
-    }
-
-    .quiz-category {
-        font-size: 1rem;
-        font-weight: bold;
-        color: #4a90e2;
-        margin-bottom: 10px;
-    }
-
-    #question-title {
-        font-size: 1.2rem;
-        margin-bottom: 20px;
-    }
-
-    #options-container {
-        display: grid;
-        justify-content: center; /* 기존 설정 유지 */
-        align-items: center; /* 기존 설정 유지 */
-        grid-template-columns: repeat(2, 130px); /* 각 열의 너비를 150px로 고정 */
-        gap: 10px; /* 선택지 간 간격 */
-        justify-items: center; /* 각 선택지를 중앙 정렬 */
-        width: 100%; /* 옵션 컨테이너가 부모의 전체 너비를 차지 */
-        max-width: 400px; /* 선택지의 중앙 정렬을 유지하며, 최대 너비 제한 */
-    }
-
-    #options-container .option {
-        background-color: #FFFFFF;
-        width: 120px; /* 선택지의 너비 */
-        height: 120px; /* 선택지의 높이 */
-        text-align: center;
-        display:flex; /* 가운데 정렬을 위한 flexbox */
-        justify-content: center;
-        align-items: center;
-        border-radius: 15px; /* 둥근 모서리 */
-        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* 그림자 효과 */
-        font-size: 1rem;
-        font-weight: bold;
-        cursor: pointer;
-        transition: all 0.3s ease;
-        border: 2px solid #DADADA; /* 테두리 색상 */
-    }
-
-    #options-container .option:hover {
-        background-color: #DFF0FF; /* 선택지에 호버 시 배경색 */
-        box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3); /* 호버 시 그림자 증가 */
-        border-color: #4a90e2; /* 테두리 색상 강조 */
-    }
-
-    #result-message {
-        margin-top: 20px;
-        padding: 10px;
-        border-radius: 5px;
-        font-weight: bold;
-    }
-
-    .result-correct {
-        color: #2d7f5e;
-        background-color: #e0f7eb;
-    }
-
-    .result-wrong {
-        color: #b00020;
-        background-color: #fdecea;
-    }
-</style>
 
 
 </body>

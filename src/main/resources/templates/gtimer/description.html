@@ -5,6 +5,27 @@
     <meta name="viewport" content="width=device-width,initial-scale=1.0,minimum-scale=0,maximum-scale=10,user-scalable=no">
     <title>Stage1</title>
     <link rel="stylesheet" href="/css/styles.css">
+    <style>
+        #timer_des {
+            max-width: 100%; /* 이미지가 컨테이너 너비를 넘어가지 않도록 제한 */
+            height: auto; /* 비율을 유지하면서 높이를 자동 조정 */
+            display: block; /* 중복 스타일 방지 */
+            margin: 40px auto; /* 이미지 위아래 마진과 가운데 정렬 */
+        }
+        #des-confirm {
+            position: relative; /* 위치를 절대값으로 설정 */
+            background: #3182f7;
+            border: none;
+            color: white;
+            font-size: 4vw;
+            padding: 2.5vw 2vw;
+            border-radius: 1vw;
+            width: 100%; /* 버튼 너비를 설정 */
+            cursor: pointer;
+            margin-top: 20vw;
+            margin-bottom: 5vw;
+        }
+    </style>
 </head>
 <body class="des">
 <div id="des-base">
@@ -23,6 +44,7 @@
     </div>
 
     <!-- 중앙 동그라미 -->
+    <img id="timer_des" src="/img/timer_des.svg" alt="Logo">
     <!--<button id="circle-button" onclick="startGame()">시작</button>-->
     <button id="des-confirm" onclick="startGame()">내용 확인</button>
 </div>

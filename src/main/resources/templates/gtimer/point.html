@@ -5,6 +5,108 @@
     <meta name="viewport" content="width=device-width,initial-scale=1.0,minimum-scale=0,maximum-scale=10,user-scalable=no">
     <title>시간 게임</title>
     <link rel="stylesheet" href="/css/styles.css">
+    <style>
+        /* 모달 배경 */
+        #modal {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            z-index: 1000;
+            background: rgba(0, 0, 0, 0.5); /* 반투명 배경 */
+            overflow: hidden; /* 전체 모달에서 스크롤 막기 */
+        }
+
+        /* 모달 컨텐츠 */
+        #gtimer-modal-content {
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-start; /* 위에서부터 정렬 */
+            align-items: center;
+            background: #E1E9F5; /* 밝은 배경 */
+            padding: 30px 20px;
+            text-align: center;
+            width: 600px;
+            max-height: 100vh;
+            overflow-y: auto; /* 내부 스크롤 활성화 */
+            gap: 20px; /* 요소 간 간격 */
+        }
+
+        /* 강조된 텍스트 */
+        #gtimer-modal-highlight {
+            font-size: 24px;
+            font-weight: bold;
+            color: #3182F7; /* 강조 색상 */
+            margin-bottom: 20px;
+            line-height: 1.5;
+        }
+
+        /* 3R 섹션 */
+        #gtimer-modal-3r {
+            background: #ffffff; /* 배경 흰색 */
+            border-radius: 10px;
+            padding: 20px;
+            margin: 20px 0;
+            font-size: 16px;
+            color: #333;
+            text-align: center;
+            width: 100%;
+        }
+
+        /* 3R 리스트 */
+        #gtimer-modal-3r-list {
+            text-align: left;
+            margin-top: 10px;
+        }
+
+        /* 이미지 */
+        #gtimer-modal-image {
+            width: 120px;
+            height: auto;
+            margin: 20px 0;
+            animation: float 2s infinite;
+        }
+
+        /* 이미지 애니메이션 */
+        @keyframes float {
+            0%, 100% {
+                transform: translateY(0);
+            }
+            50% {
+                transform: translateY(-10px);
+            }
+        }
+
+        /* 버튼 */
+        #gtimer-modal-button {
+            background: #3182f7;
+            border: none;
+            color: white;
+            font-size: 18px;
+            padding: 12px 20px;
+            border-radius: 5px;
+            width: 100%;
+            cursor: pointer;
+            transition: background-color 0.3s ease, transform 0.2s ease;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            margin-bottom: 40vw;
+        }
+
+        #gtimer-modal-button:hover {
+            background-color: #2864C2;
+            transform: translateY(-2px);
+        }
+
+        #gtimer-modal-button:active {
+            transform: translateY(0);
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+    </style>
 </head>
 <body>
     <div id="gtimer-top-bar">
@@ -24,8 +126,8 @@
 <!-- 모달 창 -->
 <div id="modal" style="display: none;">
     <div id="gtimer-modal-content" style="padding:0px;overflow-y: auto;" >
-        <!-- <h2 id="gtimer-modal-title">시간 멈추기 성공!</h2>
-        <p id="gtimer-modal-description">게임을 클리어 하였어요!</p> -->
+        <h2 id="gtimer-modal-title">시간 멈추기 성공!</h2>
+        <p id="gtimer-modal-description">게임을 클리어 하였어요!</p>
         <p id="gtimer-modal-highlight">
             숫자 3은 우리 환경에서 <br>중요한 의미를 가지고 있습니다!
         </p>
@@ -38,10 +140,10 @@
                 <p>3. Recycle(재활용): <br>자원을 새롭게 가공해 다시 활용</p>
             </div>
         </div>
-        <button id="gtimer-modal-button" onclick="location.replace('/gtimer/award');">확인했습니다</button>
+<!--        <button id="gtimer-modal-button" onclick="location.replace('/gtimer/award');">확인했습니다</button>-->
         <img id="gtimer-modal-image" src="/img/otter2.png" alt="Character">
         <div class="create-speech-bubble bottom">이 간단한 3단계로 지속 가능한 <br>지구를 만드는데 기여할수 있습니다!</div>
-        <!--<button id="gtimer-modal-button" onclick="location.replace('/gtimer/award');">확인했습니다</button>-->
+        <button id="gtimer-modal-button" onclick="location.replace('/gtimer/award');">확인했습니다</button>
     </div>
 </div>
 

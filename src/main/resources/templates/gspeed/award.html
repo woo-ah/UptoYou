@@ -43,6 +43,27 @@
             border-radius: 15px;
             box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
         }
+        #img_level {
+            height: 50vw;
+            width: auto;
+            animation: float-and-rotate 3s infinite ease-in-out; /* 기본 부드러운 애니메이션 */
+            transition: transform 0.2s ease; /* 클릭 효과 부드럽게 전환 */
+        }
+
+        #img_level:active {
+            animation: none; /* 클릭 시 기본 애니메이션 중지 */
+            transform: scale(1.2) rotate(15deg); /* 살짝 커지고 회전 */
+        }
+
+        /* 애니메이션 키프레임 */
+        @keyframes float-and-rotate {
+            0%, 100% {
+                transform: translateY(0) rotate(0deg); /* 처음과 끝은 원래 위치 */
+            }
+            50% {
+                transform: translateY(-10px) rotate(5deg); /* 살짝 떠오르면서 회전 */
+            }
+        }
     </style>
 
 </head>
@@ -51,7 +72,7 @@
     <div id="des-stage-info">
         <p class="des-stage">현재 순위</p>
         <div>
-            <img id="img_level" src="" style="height: 100px;width: auto;" alt=""/>
+            <img id="img_level" src="" style="height: 40vw;width: auto;" alt=""/>
         </div>
         <div class="div_panel">
             <div class="div_text_detail" id="detail_username" style="font-weight: 900;">-</div>
