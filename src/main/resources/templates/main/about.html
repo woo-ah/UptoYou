@@ -206,6 +206,17 @@
             padding-left: 3vw;
         }
 
+        #mypage-link {
+            position: absolute;
+            bottom: 50px; /* 화면 하단에서 20px 위 */
+            right: 30px; /* 화면 오른쪽에서 20px 왼쪽 */
+            font-size: 1.5em;
+            color: #007BFF; /* 파란색 */
+            text-decoration: none; /* 밑줄 제거 */
+            padding: 10px 15px;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
     </style>
 </head>
 <body>
@@ -227,6 +238,8 @@
         <li><a href="/community">Community</a></li>
         <li><a href="/about">About Us</a></li>
     </ul>
+    <!-- MyPage 추가 -->
+    <a id="mypage-link" href="/user/award">MyPage</a>
 </div>
 
 <!-- 페이지 콘텐츠 -->
